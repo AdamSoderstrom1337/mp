@@ -18,7 +18,7 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 #include <glfw/glfw3.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include <iostream>
 
 
 
@@ -26,6 +26,9 @@ float transZ=50;
 float rotateA=0;         
 
 float rotateAspeed=0.0;
+
+double timeSinceStart;
+
 
 
 void cube (float dimX, float dimY, float dimZ)
@@ -93,6 +96,9 @@ void updatePosition(){
 
 void display()
 {
+  double rotSpeed = timeSinceStart/4;
+
+  timeSinceStart = (double)glutGet(GLUT_ELAPSED_TIME)/1000;
 
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -102,19 +108,19 @@ void display()
   glLoadIdentity();
 
   //gluLookAt(transZ*cos(rotateA),50,transZ*sin(rotateA), 0,10,0, 0,1,0);
-  gluLookAt(transZ*cos(rotateA),50,transZ*sin(rotateA), 0,10,0, 0,1,0);
+  gluLookAt(transZ*cos(rotSpeed),50,transZ*sin(rotSpeed), 0,10,0, 0,1,0);
   
-
   cube(50,50,50);
 
   glFlush();            
 
   glutSwapBuffers();
+
 }
 
 void init (void)
-{
-  glClearColor(0.7, 0.7, 0.7, 1.0);
+{  
+  glClearColor(0.8, 0.8, 0.8, 1.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
