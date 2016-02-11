@@ -37,7 +37,7 @@ double timeSinceStart;
 
 void cube (float dimX, float dimY, float dimZ)
   {
-  
+  /*
   glMatrixMode(GL_MODELVIEW);
   glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
@@ -89,35 +89,48 @@ void cube (float dimX, float dimY, float dimZ)
 
 
   glEnd();
+  */
   
 
-  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
+  glPushMatrix();
+
+  glTranslatef(0,dimY/2,0);
+  glScalef(dimX/4, dimY/4, dimZ/4);
   
-
-  /*
   glEnableClientState(GL_VERTEX_ARRAY);
+
+
+  static GLfloat vertices[] = {-1.0f, -1.0f,  1.0f,  //FRONT-LEFT-DOWN
+                               -1.0f,  1.0f,  1.0f,  //FRONT-LEFT-UP
+                                1.0f,  1.0f,  1.0f,  //FRONT-RIGHT-UP
+                                1.0f, -1.0f,  1.0f,  //FRONT-RIGHT-DOWN
+                                1.0f,  1.0f, -1.0f,  //BACK-RIGHT-UP
+                                1.0f, -1.0f, -1.0f,  //BACK-RIGHT-DOWN
+                               -1.0f, -1.0f, -1.0f,  //BACK-LEFT-DOWN
+                               -1.0f,  1.0f, -1.0f}; //BACK-LEFT-UP
  
-  static GLfloat vertices[] = {0.25, 0.25, 1.00, 3.25, 1.75, 0.25, 1.75, 3.25, 2.50, 0.25, 3.25, 3.25};
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
  
   //Nummerierung der Punkte des Wuerfels
-  static GLubyte frontIndices[] = {4, 5, 6, 7};
-  static GLubyte rightIndices[] = {1, 2, 6, 5};
-  static GLubyte bottomIndices[] = {0, 1, 5, 4};
-  static GLubyte backIndices[] = {0, 3, 2, 1};
-  static GLubyte leftIndices[] = {0, 4, 7, 3};
-  static GLubyte topIndices[] = {2, 3, 7, 6};
+  static GLubyte frontIndices[] = {0, 1, 2, 3};
+  static GLubyte rightIndices[] = {3, 2, 4, 5};
+  static GLubyte bottomIndices[] = {0, 3, 5, 6};
+  static GLubyte backIndices[] = {6, 5, 4, 7};
+  static GLubyte leftIndices[] = {0, 6, 7, 1};
+  static GLubyte topIndices[] = {1, 2, 4, 7};
+ 
  
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);
-  glDisableClientState(GL_VERTEX_ARRAY);
-  */
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
 
+  glPopMatrix();
 }
 
 
