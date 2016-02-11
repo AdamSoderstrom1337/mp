@@ -1,7 +1,8 @@
 /*
 Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
-
 */
+
+
 #include <GL/glew.h>
 
 #if defined (__APPLE_CC__)
@@ -26,37 +27,10 @@ float rotateA=0;
 
 float rotateAspeed=0.0;
 
-void floor (float dimX, float dimY, float dimZ, float yPos)
-{
-  glMatrixMode(GL_MODELVIEW);
-
-  glPushMatrix();
-
-
-  glTranslatef(0,dimY/2,0);
-
-  glScalef(dimX/4, dimY/4, dimZ/4);
-
-
-
-  glBegin(GL_QUADS);        
-    glColor3f(0.3, 0.3, 0.3);    // Color Green - TOP
-
-    glVertex3f(1.0, yPos, 1); // TOP-RIGHT-NEAR
-    glVertex3f(-1.0, yPos, 1); // TOP-LEFT-NEAR
-    glVertex3f(-1.0, yPos, -1); //TOP-LEFT-FAR
-    glVertex3f(1.0, yPos, -1); // TOP-RIGHT-FAR
-  glEnd();
-
-
-  glPopMatrix();
-}
-
 
 void cube (float dimX, float dimY, float dimZ)
   {
   glMatrixMode(GL_MODELVIEW);
-
   glPushMatrix();
 
 
@@ -64,45 +38,39 @@ void cube (float dimX, float dimY, float dimZ)
 
   glScalef(dimX/4, dimY/4, dimZ/4);
 
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
+  glBegin(GL_QUADS);     
 
-  glBegin(GL_QUADS);        
-    glColor3f(0.0, 1.0, 0.0);    // Color Green - TOP
+  glColor3f(1.0f, 0.0f, 0.0f); 
 
     glVertex3f(1.0, 1.0, 1.0); // TOP-RIGHT-NEAR
-   glVertex3f(-1.0, 1.0, 1.0); // TOP-LEFT-NEAR
-   glVertex3f(-1.0, 1.0, -1.0); //TOP-LEFT-FAR
-   glVertex3f(1.0, 1.0, -1.0); // TOP-RIGHT-FAR
+    glVertex3f(-1.0, 1.0, 1.0); // TOP-LEFT-NEAR
+    glVertex3f(-1.0, 1.0, -1.0); //TOP-LEFT-FAR
+    glVertex3f(1.0, 1.0, -1.0); // TOP-RIGHT-FAR
 
-   glColor3f(1.0, 0.0, 0.0); // Color RED - Bottom
 
     glVertex3f(1.0, -1.0, 1.0); //BOTTOM-RIGHT-NEAR
     glVertex3f(-1.0, -1.0, 1.0); //BOTTOM-LEFT-NEAR
     glVertex3f(-1.0, -1.0, -1.0); //BOTTOM-LEFT-FAR
     glVertex3f(1.0, -1.0, -1.0); //BOTTOM-RIGHT-FAR
 
-    glColor3f(1.0, 1.0, 0.0); // Color Yellow - Back
-
     glVertex3f(1.0, 1.0, -1.0); //TOP-RIGHT-FAR
     glVertex3f(-1.0, 1.0, -1.0); //TOP-LEFT-FAR
     glVertex3f(-1.0, -1.0, -1.0); //BOTTOM-LEFT-FAR
     glVertex3f(1.0, -1.0, -1.0); //BOTTOM-RIGHT-FAR
 
-    glColor3f(0.0, 0.0, 1.0); //Color Blue - RIGHT
 
     glVertex3f(1.0, 1.0, 1.0); //TOP-FRONT-NEAR
     glVertex3f(1.0, 1.0, -1.0); //TOP-BACK-FAR
     glVertex3f(1.0, -1.0, -1.0); //BOTTOM-BACK-FAR
     glVertex3f(1.0, -1.0, 1.0); //BOTTOM-FRONT-NEAR
 
-    glColor3f(1.0, 0.5, 0.0); //Color Orange - Left
 
     glVertex3f(-1.0, 1.0, 1.0); //TOP-FRONT-NEAR
     glVertex3f(-1.0, 1.0, -1.0); //TOP-BACK-FAR
     glVertex3f(-1.0, -1.0, -1.0);//BOTTOM-BACK-FAR
     glVertex3f(-1.0, -1.0, 1.0); //BOTTOM-FRONT-NEAR
-
-    glColor3f(1.0f, 0.0f, 0.0f); //Color Orange - Left
     
     glVertex3f(1.0f,  1.0f,  1.0f);    // x, y
     glVertex3f(-1.0f, 1.0f, 1.0f);
@@ -118,7 +86,12 @@ void cube (float dimX, float dimY, float dimZ)
 }
 
 
-void display(void)
+void updatePosition(){
+
+
+}
+
+void display()
 {
 
 
@@ -129,12 +102,10 @@ void display(void)
   glLoadIdentity();
 
   //gluLookAt(transZ*cos(rotateA),50,transZ*sin(rotateA), 0,10,0, 0,1,0);
-  gluLookAt(transZ*cos(rotateA),40,transZ*sin(rotateA), 0,10,0, 0,1,0);
+  gluLookAt(transZ*cos(rotateA),50,transZ*sin(rotateA), 0,10,0, 0,1,0);
   
 
-  cube(30,30,30);
-  floor(1000,1000,1000,-3);
-
+  cube(50,50,50);
 
   glFlush();            
 
