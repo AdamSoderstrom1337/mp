@@ -22,133 +22,18 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 #include <iostream>
 
 /* -- Global Variables -- */
-GLuint vbo_cube_vertices, vbo_cube_colors;
-GLuint ibo_cube_elements;
-
 float transZ=0;      
 float rotateA=0;         
-
-
 double timeSinceStart; //Time variable
 
-void drawCube ()
-  {
-  
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glColor3f(1.0f, 0.0f, 0.0f); 
 
-  GLfloat vertices[] = {-1.0f, -1.0f,  1.0f,  //FRONT-LEFT-DOWN
-                        -1.0f,  1.0f,  1.0f,  //FRONT-LEFT-UP
-                         1.0f,  1.0f,  1.0f,  //FRONT-RIGHT-UP
-                         1.0f, -1.0f,  1.0f,  //FRONT-RIGHT-DOWN
-                         1.0f,  1.0f, -1.0f,  //BACK-RIGHT-UP
-                         1.0f, -1.0f, -1.0f,  //BACK-RIGHT-DOWN
-                        -1.0f, -1.0f, -1.0f,  //BACK-LEFT-DOWN
-                        -1.0f,  1.0f, -1.0f}; //BACK-LEFT-UP
- 
-  glVertexPointer(3, GL_FLOAT, 0, vertices);
- 
-  //Declare vertex indices
-  GLubyte frontIndices[] = {0, 1, 2, 3};
-  GLubyte rightIndices[] = {3, 2, 4, 5};
-  GLubyte bottomIndices[] = {0, 3, 5, 6};
-  GLubyte backIndices[] = {6, 5, 4, 7};
-  GLubyte leftIndices[] = {0, 6, 7, 1};
-  GLubyte topIndices[] = {1, 2, 4, 7};
- 
- 
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
-}
-
-void display()
-{
-  /* - Update timevariable - */
-  timeSinceStart = (float)glfwGetTime();
-  double rotSpeed = timeSinceStart*45; 
-
-
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-
-  gluLookAt(0,25+transZ,50, 0,0,0, 0,1,0); // (eye, center, up)
-
-
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-  glMatrixMode(GL_MODELVIEW);
-
-
-  glPushMatrix();
-
-    glRotatef(rotSpeed, 0.0f, 1.0f, 0.0f);
-    glScalef(10.0f,10.0f,10.0f);
-    drawCube();
-
-  glPopMatrix();
-
-  glFlush();           
-  glutSwapBuffers();
-
-}
-
-void init (void)
-{  
-  glClearColor(0.8, 0.8, 0.8, 1.0);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-
-}
-
-
-void keyboard(unsigned char key, int x, int y)
-{
-  switch (key) {
-    case 27:                
-    exit(0);
-    break;
-    case 'S':
-      transZ+=2.0f;
-      glutPostRedisplay();  
-    break;
-    case 'W':
-      transZ-=2.0f;
-      glutPostRedisplay();  
-    break;
-    case 's':
-      transZ+=2.0f;
-      glutPostRedisplay();  
-    break;
-    case 'w':
-      transZ-=2.0f;
-      glutPostRedisplay(); 
-    break;
-
-  }
-}
-
-void idle(void)
-{
-  glutPostRedisplay();    
-}
-
-static void error_callback(int error, const char* description)
-{
-    fputs(description, stderr);
-}
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-}
+/* - Function Declarations - */
+void drawCube();
+void display();
+void init (void);
+void keyboard(unsigned char key, int x, int y);
+static void error_callback(int error, const char* description);
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 
 
@@ -192,7 +77,6 @@ int main(void)
         
         glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
         glMatrixMode(GL_MODELVIEW);
-        
         glLoadIdentity();
         
         /* ----------------------- Rendering code ---------------------- */
@@ -215,3 +99,116 @@ int main(void)
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
+
+static void error_callback(int error, const char* description)
+{
+    fputs(description, stderr);
+}
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+void init (void)
+{  
+  glClearColor(0.8, 0.8, 0.8, 1.0);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
+}
+
+void drawCube ()
+  {
+  
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glColor3f(1.0f, 0.0f, 0.0f); 
+
+  GLfloat vertices[] = {-1.0f, -1.0f,  1.0f,  //FRONT-LEFT-DOWN
+                        -1.0f,  1.0f,  1.0f,  //FRONT-LEFT-UP
+                         1.0f,  1.0f,  1.0f,  //FRONT-RIGHT-UP
+                         1.0f, -1.0f,  1.0f,  //FRONT-RIGHT-DOWN
+                         1.0f,  1.0f, -1.0f,  //BACK-RIGHT-UP
+                         1.0f, -1.0f, -1.0f,  //BACK-RIGHT-DOWN
+                        -1.0f, -1.0f, -1.0f,  //BACK-LEFT-DOWN
+                        -1.0f,  1.0f, -1.0f}; //BACK-LEFT-UP
+ 
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+ 
+  //Declare vertex indices
+  GLubyte frontIndices[] = {0, 1, 2, 3};
+  GLubyte rightIndices[] = {3, 2, 4, 5};
+  GLubyte bottomIndices[] = {0, 3, 5, 6};
+  GLubyte backIndices[] = {6, 5, 4, 7};
+  GLubyte leftIndices[] = {0, 6, 7, 1};
+  GLubyte topIndices[] = {1, 2, 4, 7};
+ 
+ 
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+  switch (key) {
+    case 27:                
+    exit(0);
+    break;
+    case 'S':
+      transZ+=2.0f;
+    break;
+    case 'W':
+      transZ-=2.0f;
+    break;
+    case 's':
+      transZ+=2.0f;
+    break;
+    case 'w':
+      transZ-=2.0f;
+    break;
+
+  }
+}
+
+/*
+
+void display()
+{
+  // - Update timevariable - 
+
+  timeSinceStart = (float)glfwGetTime();
+  double rotSpeed = timeSinceStart*45; 
+
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  gluLookAt(0,25+transZ,50, 0,0,0, 0,1,0); // (eye, center, up)
+
+
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+  glMatrixMode(GL_MODELVIEW);
+
+
+  glPushMatrix();
+
+    glRotatef(rotSpeed, 0.0f, 1.0f, 0.0f);
+    glScalef(10.0f,10.0f,10.0f);
+    drawCube();
+
+  glPopMatrix();
+
+  glFlush();           
+  glutSwapBuffers();
+
+}
+*/
