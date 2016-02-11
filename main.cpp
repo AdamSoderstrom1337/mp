@@ -20,6 +20,10 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 #include <math.h>
 #include <iostream>
 
+/* -- Global Variables -- */
+GLuint vbo_cube_vertices, vbo_cube_colors;
+GLuint ibo_cube_elements;
+
 
 
 float transZ=50;      
@@ -33,18 +37,20 @@ double timeSinceStart;
 
 void cube (float dimX, float dimY, float dimZ)
   {
+  
   glMatrixMode(GL_MODELVIEW);
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
   glPushMatrix();
-
-
   glTranslatef(0,dimY/2,0);
 
   glScalef(dimX/4, dimY/4, dimZ/4);
 
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-
+  
   glBegin(GL_QUADS);     
 
+
+  
   glColor3f(1.0f, 0.0f, 0.0f); 
 
     glVertex3f(1.0, 1.0, 1.0); // TOP-RIGHT-NEAR
@@ -83,9 +89,35 @@ void cube (float dimX, float dimY, float dimZ)
 
 
   glEnd();
-
+  
 
   glPopMatrix();
+
+  
+
+  /*
+  glEnableClientState(GL_VERTEX_ARRAY);
+ 
+  static GLfloat vertices[] = {0.25, 0.25, 1.00, 3.25, 1.75, 0.25, 1.75, 3.25, 2.50, 0.25, 3.25, 3.25};
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
+ 
+  //Nummerierung der Punkte des Wuerfels
+  static GLubyte frontIndices[] = {4, 5, 6, 7};
+  static GLubyte rightIndices[] = {1, 2, 6, 5};
+  static GLubyte bottomIndices[] = {0, 1, 5, 4};
+  static GLubyte backIndices[] = {0, 3, 2, 1};
+  static GLubyte leftIndices[] = {0, 4, 7, 3};
+  static GLubyte topIndices[] = {2, 3, 7, 6};
+ 
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);
+  glDisableClientState(GL_VERTEX_ARRAY);
+  */
+
 }
 
 
