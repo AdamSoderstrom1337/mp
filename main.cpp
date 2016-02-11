@@ -4,6 +4,7 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #if defined (__APPLE_CC__)
     #include <OpenGL/gl.h>
@@ -15,7 +16,7 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
     #include <GL/glut.h>
 #endif
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
@@ -24,113 +25,51 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 GLuint vbo_cube_vertices, vbo_cube_colors;
 GLuint ibo_cube_elements;
 
-
-
-float transZ=50;      
+float transZ=0;      
 float rotateA=0;         
 
-float rotateAspeed=0.0;
 
-double timeSinceStart;
+double timeSinceStart; //Time variable
 
-
-
-void cube (float dimX, float dimY, float dimZ)
+void drawCube ()
   {
   
-  glMatrixMode(GL_MODELVIEW);
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-
-  glPushMatrix();
-  glTranslatef(0,dimY/2,0);
-
-  glScalef(dimX/4, dimY/4, dimZ/4);
-
-  
-  glBegin(GL_QUADS);     
-
-
-  
+  glEnableClientState(GL_VERTEX_ARRAY);
   glColor3f(1.0f, 0.0f, 0.0f); 
 
-    glVertex3f(1.0, 1.0, 1.0); // TOP-RIGHT-NEAR
-    glVertex3f(-1.0, 1.0, 1.0); // TOP-LEFT-NEAR
-    glVertex3f(-1.0, 1.0, -1.0); //TOP-LEFT-FAR
-    glVertex3f(1.0, 1.0, -1.0); // TOP-RIGHT-FAR
-
-
-    glVertex3f(1.0, -1.0, 1.0); //BOTTOM-RIGHT-NEAR
-    glVertex3f(-1.0, -1.0, 1.0); //BOTTOM-LEFT-NEAR
-    glVertex3f(-1.0, -1.0, -1.0); //BOTTOM-LEFT-FAR
-    glVertex3f(1.0, -1.0, -1.0); //BOTTOM-RIGHT-FAR
-
-    glVertex3f(1.0, 1.0, -1.0); //TOP-RIGHT-FAR
-    glVertex3f(-1.0, 1.0, -1.0); //TOP-LEFT-FAR
-    glVertex3f(-1.0, -1.0, -1.0); //BOTTOM-LEFT-FAR
-    glVertex3f(1.0, -1.0, -1.0); //BOTTOM-RIGHT-FAR
-
-
-    glVertex3f(1.0, 1.0, 1.0); //TOP-FRONT-NEAR
-    glVertex3f(1.0, 1.0, -1.0); //TOP-BACK-FAR
-    glVertex3f(1.0, -1.0, -1.0); //BOTTOM-BACK-FAR
-    glVertex3f(1.0, -1.0, 1.0); //BOTTOM-FRONT-NEAR
-
-
-    glVertex3f(-1.0, 1.0, 1.0); //TOP-FRONT-NEAR
-    glVertex3f(-1.0, 1.0, -1.0); //TOP-BACK-FAR
-    glVertex3f(-1.0, -1.0, -1.0);//BOTTOM-BACK-FAR
-    glVertex3f(-1.0, -1.0, 1.0); //BOTTOM-FRONT-NEAR
-    
-    glVertex3f(1.0f,  1.0f,  1.0f);    // x, y
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f,  1.0f);
-
-
-
-  glEnd();
-  
-
-  glPopMatrix();
-
-  
-
-  /*
-  glEnableClientState(GL_VERTEX_ARRAY);
+  GLfloat vertices[] = {-1.0f, -1.0f,  1.0f,  //FRONT-LEFT-DOWN
+                        -1.0f,  1.0f,  1.0f,  //FRONT-LEFT-UP
+                         1.0f,  1.0f,  1.0f,  //FRONT-RIGHT-UP
+                         1.0f, -1.0f,  1.0f,  //FRONT-RIGHT-DOWN
+                         1.0f,  1.0f, -1.0f,  //BACK-RIGHT-UP
+                         1.0f, -1.0f, -1.0f,  //BACK-RIGHT-DOWN
+                        -1.0f, -1.0f, -1.0f,  //BACK-LEFT-DOWN
+                        -1.0f,  1.0f, -1.0f}; //BACK-LEFT-UP
  
-  static GLfloat vertices[] = {0.25, 0.25, 1.00, 3.25, 1.75, 0.25, 1.75, 3.25, 2.50, 0.25, 3.25, 3.25};
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
  
-  //Nummerierung der Punkte des Wuerfels
-  static GLubyte frontIndices[] = {4, 5, 6, 7};
-  static GLubyte rightIndices[] = {1, 2, 6, 5};
-  static GLubyte bottomIndices[] = {0, 1, 5, 4};
-  static GLubyte backIndices[] = {0, 3, 2, 1};
-  static GLubyte leftIndices[] = {0, 4, 7, 3};
-  static GLubyte topIndices[] = {2, 3, 7, 6};
+  //Declare vertex indices
+  GLubyte frontIndices[] = {0, 1, 2, 3};
+  GLubyte rightIndices[] = {3, 2, 4, 5};
+  GLubyte bottomIndices[] = {0, 3, 5, 6};
+  GLubyte backIndices[] = {6, 5, 4, 7};
+  GLubyte leftIndices[] = {0, 6, 7, 1};
+  GLubyte topIndices[] = {1, 2, 4, 7};
+ 
  
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);
-  glDisableClientState(GL_VERTEX_ARRAY);
-  */
-
-}
-
-
-void updatePosition(){
-
-
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
 }
 
 void display()
 {
-  double rotSpeed = timeSinceStart/4;
-
-  timeSinceStart = (double)glutGet(GLUT_ELAPSED_TIME)/1000;
+  /* - Update timevariable - */
+  timeSinceStart = (float)glfwGetTime();
+  double rotSpeed = timeSinceStart*45; 
 
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -139,13 +78,22 @@ void display()
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  //gluLookAt(transZ*cos(rotateA),50,transZ*sin(rotateA), 0,10,0, 0,1,0);
-  gluLookAt(transZ*cos(rotSpeed),50,transZ*sin(rotSpeed), 0,10,0, 0,1,0);
-  
-  cube(50,50,50);
+  gluLookAt(0,25+transZ,50, 0,0,0, 0,1,0); // (eye, center, up)
 
-  glFlush();            
 
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+  glMatrixMode(GL_MODELVIEW);
+
+
+  glPushMatrix();
+
+    glRotatef(rotSpeed, 0.0f, 1.0f, 0.0f);
+    glScalef(10.0f,10.0f,10.0f);
+    drawCube();
+
+  glPopMatrix();
+
+  glFlush();           
   glutSwapBuffers();
 
 }
@@ -156,9 +104,8 @@ void init (void)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  glFrustum(-1, 1, -1, 1, 1, 1000);
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
-  glEnable(GL_DEPTH_TEST); 
 }
 
 
@@ -169,38 +116,20 @@ void keyboard(unsigned char key, int x, int y)
     exit(0);
     break;
     case 'S':
-    transZ+=1.0f;
-    glutPostRedisplay();  
+      transZ+=2.0f;
+      glutPostRedisplay();  
     break;
     case 'W':
-    transZ-=1.0f;
-    if (transZ<0) transZ=0;
-    glutPostRedisplay();  
+      transZ-=2.0f;
+      glutPostRedisplay();  
     break;
     case 's':
-    transZ+=0.5f;
-    glutPostRedisplay();  
+      transZ+=2.0f;
+      glutPostRedisplay();  
     break;
     case 'w':
-    transZ-=0.5f;
-    if (transZ<0) transZ=0;
-    glutPostRedisplay(); 
-    break;
-    case 'A':
-    rotateAspeed+=0.001f;
-    glutPostRedisplay();  
-    break;
-    case 'a':
-    rotateAspeed+=0.001f;
-    glutPostRedisplay();  
-    break;
-    case 'D':
-    rotateAspeed-=0.001f;
-    glutPostRedisplay();  
-    break;
-    case 'd':
-    rotateAspeed-=0.001f;
-    glutPostRedisplay();  
+      transZ-=2.0f;
+      glutPostRedisplay(); 
     break;
 
   }
@@ -208,24 +137,81 @@ void keyboard(unsigned char key, int x, int y)
 
 void idle(void)
 {
-  rotateA=rotateA + rotateAspeed;
   glutPostRedisplay();    
 }
 
+static void error_callback(int error, const char* description)
+{
+    fputs(description, stderr);
+}
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
 
-int main(int argc, char** argv)
-{  
- glutInit(&argc, argv);
- glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
- glutInitWindowSize (500, 500);
- glutInitWindowPosition (100, 100);
- glutCreateWindow ("Cube");
- init ();
 
- glutDisplayFunc(display);
- glutIdleFunc(idle); 
 
- glutKeyboardFunc(keyboard); 
- glutMainLoop();
- return 0;
+int main(void)
+{
+
+
+    GLFWwindow* window;
+    glfwSetErrorCallback(error_callback);
+    
+    if (!glfwInit())
+        exit(EXIT_FAILURE);
+
+    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+
+    glfwMakeContextCurrent(window);
+    init();
+
+    glfwSwapInterval(1);
+    glfwSetKeyCallback(window, key_callback);
+
+
+    while (!glfwWindowShouldClose(window))
+    {
+        float ratio;
+        int width, height;
+       
+        glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float) height;
+        
+        glViewport(0, 0, width, height);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        
+        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        glMatrixMode(GL_MODELVIEW);
+        
+        glLoadIdentity();
+        
+        /* ----------------------- Rendering code ---------------------- */
+        glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
+        glScalef(0.5f, 0.5f, 0.5f);
+        
+        glRotatef(timeSinceStart*45, 0.0f, 1.0f, 0.0f);
+        drawCube();
+
+        /* ------------------------------------------------------------- */
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+
+        timeSinceStart = (float)glfwGetTime(); //update timevariable
+    }
+
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    exit(EXIT_SUCCESS);
 }
