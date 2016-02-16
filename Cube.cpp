@@ -16,50 +16,83 @@ Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
     }
 }
 
-GLfloat* Cube::getVertices()
+GLfloat Cube::getVertice(int index)
 {
-    return vertices;
+    return initialVertices[index];
 }
 
-void Cube::setVertices(int indexRow, glm::vec3 values )
+void Cube::setVertice(int index, float value)
 {
-    indexRow = (indexRow-1)*3 ;
-    
-    for (int i = 0; i < 3;i++){
-        vertices[indexRow+i] = values[i];
-    }
+    vertices[index]=value;
     
 }
-
-void Cube::update(double &time){
-    //-1 1 1 TOP LEFT
-    // 1 1 1 TOP RIGHT
+void Cube::update(float &time){
     
-    double newTime=glfwGetTime();
-    
+    double x1=vertices[3];
+    double x2=vertices[6];
     double v1=0;
     double v2=0;
+    
     double m=2;
     int k=20;
     
-    double deltaTime = 0.01; //newTime-time;
+    double h = 0.01; //newTime-time;
     
+    double F1 = k*(x2-x1-10);
+    double F2 = k*(x1-x2+10);
     
+    v1 = v1 + F1*h/m;
+    x1 = x1 + v1*h;
+    v2 = v2 + F2*h/m;
+    x2 = x2 + v2*h;
     
-    double F1 = k*(vertices[6] - vertices[3]-10);
-    double F2 = k*(vertices[3] - vertices[6]+10);
-    
-    v1 = v1+F1*deltaTime/m;
-    v2 = v2+F2*deltaTime/m;
-    
-    vertices[3]=vertices[3]+v1*deltaTime;
-    vertices[6]=vertices[6]+v2*deltaTime;
+    vertices[3]=x1;
+    vertices[6]=x2;
 
-    std::cout << F1 << std::endl;
-
+    //std::cout << F1 << std::endl;
     
 }
 
+void Cube::temp(){
+    // m är massa
+    int m = 2;
+    
+    // h är en steglängd
+    // k är fjäderkonstant
+    // d är dämpningskonstant
+    double h = 0.01;
+    int k = 20;
+    
+    
+    // Number of samples
+    int N = 100;
+    
+    double x1 = vertices[3];
+    double x2 = vertices[6];
+    double v1 = 0;
+    double v2 = 0;
+    
+    double F1[100];
+    double F2[100];
+    
+    for (int n=2; n<N; n++){
+
+        F1[n] = k*(x2-x1-10);
+        F2[n] = k*(x1-x2+10);
+
+        v1 = v1 + F1[n]*h/m;
+        x1 = x1 + v1*h;
+        v2 = v2 + F2[n]*h/m;
+        x2 = x2 + v2*h;
+        
+        vertices[3]=x1;
+        vertices[6]=x2;
+        
+        
+        std::cout << vertices[3] << std::endl;
+    }
+    
+}
 
 
 void Cube::draw()

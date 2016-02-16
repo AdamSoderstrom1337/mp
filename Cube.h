@@ -15,16 +15,18 @@ class Cube
 {
 private:
 
-    GLfloat vertices[24];
+    
     GLfloat initialVertices[24];
     
 
 public:
     Cube();
-    GLfloat* getVertices();
-    void setVertices(int index, glm::vec3 values );
+    GLfloat vertices[24];
+    GLfloat getVertice(int index);
+    void setVertice(int index, float value);
     void draw();
-    void update(double &time);
+    void update(float &time);
+    void temp();
 
 
 };
