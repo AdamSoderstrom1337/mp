@@ -1,7 +1,6 @@
 // glm::vec3
 #include "Cube.h"
 
-
     Cube::Cube() : vertices {-1.0f, -1.0f,  1.0f,
                               -1.0f,  1.0f,  1.0f,
                               1.0f,  1.0f,  1.0f,
@@ -11,7 +10,7 @@
                               -1.0f, -1.0f, -1.0f,
                               -1.0f,  1.0f, -1.0f}
     {
-
+            ;
     }
 
     GLfloat* Cube::get()

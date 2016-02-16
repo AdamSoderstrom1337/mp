@@ -1,8 +1,3 @@
-/*
-Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
-*/
-
-
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -11,7 +6,7 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
     #include <OpenGL/glu.h>
     #include <GLUT/glut.h>
 #else
-    #include <GL/gl.h>       /* assert OpenGL 3.2 core profile available. */
+    #include <GL/gl.h>
     #include <GL/glu.h>
     #include <GL/glut.h>
 #endif
@@ -20,6 +15,11 @@ Author: http://stackoverflow.com/questions/22636069/cube-rotation-opengl
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
+
+#include "Cube.h"
+
+
+
 
 /* -- Global Variables -- */
 float transZ=0;      
@@ -40,64 +40,74 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 int main(void)
 {
 
+  GLFWwindow* window;
+  glfwSetErrorCallback(error_callback);
 
-    GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
-    
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
+  if (!glfwInit())
+      exit(EXIT_FAILURE);
 
-    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
+  window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+  if (!window)
+  {
+      glfwTerminate();
+      exit(EXIT_FAILURE);
+  }
 
-    glfwMakeContextCurrent(window);
-    init();
+  glfwMakeContextCurrent(window);
+  init();
 
-    glfwSwapInterval(1);
-    glfwSetKeyCallback(window, key_callback);
+  glfwSwapInterval(1);
+  glfwSetKeyCallback(window, key_callback);
 
+  Cube asdf = Cube();
 
-    while (!glfwWindowShouldClose(window))
-    {
-        float ratio;
-        int width, height;
-       
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float) height;
-        
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        
-        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        
-        /* ----------------------- Rendering code ---------------------- */
-        glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
-        glScalef(0.5f, 0.5f, 0.5f);
-        
-        glRotatef(timeSinceStart*45, 0.0f, 1.0f, 0.0f);
+  while (!glfwWindowShouldClose(window))
+  {
+      float ratio;
+      int width, height, button;
+     
+      glfwGetFramebufferSize(window, &width, &height);
+      ratio = width / (float) height;
+      
+      glViewport(0, 0, width, height);
+      glClear(GL_COLOR_BUFFER_BIT);
+      
+      glMatrixMode(GL_PROJECTION);
+      glLoadIdentity();
+      
+      glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
+
+      glMatrixMode(GL_MODELVIEW);
+      glLoadIdentity();
+
+      /* ----------------------- camera controls ---------------------- */
+      double mouseX, mouseY;
+
+      glfwGetCursorPos(window, &mouseX, &mouseY);
+      gluLookAt(-mouseX/100, mouseY/100, 3, 0, 0, 0, 0.0, 1.0, 0.0);
+      /* -------------------------------------------------------------- */
+  
+
+      /* ----------------------- Rendering code ---------------------- */
+
+      glPushMatrix();
+        //glRotatef(20.0f, 1.0f, 0.0f, 0.0f);             
+        //glRotatef(timeSinceStart*45, 0.0f, 1.0f, 0.0f); // matrix order = ^
         drawCube();
+      glPopMatrix();
 
-        /* ------------------------------------------------------------- */
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+      /* ------------------------------------------------------------- */
+      
+      glfwSwapBuffers(window);
+      glfwPollEvents();
 
-        timeSinceStart = (float)glfwGetTime(); //update timevariable
-    }
+      timeSinceStart = (float)glfwGetTime(); //update timevariable
+  }
 
 
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
+  glfwDestroyWindow(window);
+  glfwTerminate();
+  exit(EXIT_SUCCESS);
 }
 
 static void error_callback(int error, const char* description)
@@ -154,6 +164,8 @@ void drawCube ()
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
 }
 
+
+
 void keyboard(unsigned char key, int x, int y)
 {
   switch (key) {
@@ -176,8 +188,10 @@ void keyboard(unsigned char key, int x, int y)
   }
 }
 
-/*
 
+
+
+/*
 void display()
 {
   // - Update timevariable - 
