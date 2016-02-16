@@ -19,9 +19,11 @@ private:
 
 public:
     Cube();
-    GLfloat* get();
-    void set(int index, glm::vec3 values );
+    GLfloat* getVertices();
+    void setVertices(int index, glm::vec3 values );
     void draw();
+    void update(double &time);
+
 
 };
 
