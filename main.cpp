@@ -36,7 +36,7 @@ void init (void);
 void keyboard(unsigned char key, int x, int y);
 static void error_callback(int error, const char* description);
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
+void rotCamera();
 
 
 int main(void)
@@ -84,66 +84,10 @@ int main(void)
 
       /* ----------------------- camera controls ---------------------- */
 
-      POINT p1;
-      POINT p2;
-
-      float angleX;
-      float angleY;
-
-      //If left button is not clicked
-      if(GetKeyState(VK_UP) & 0x100){
-        up += 1.0f;
-      }
-      if(GetKeyState(VK_DOWN) & 0x100){
-        down -= 1.0f;
-      }
-      if(GetKeyState(VK_RIGHT) & 0x100){
-        right += 1.0f;
-      }
-      if(GetKeyState(VK_LEFT) & 0x100){
-        left -= 1.0f;
-      }
-
-      if (up+down > 40){
-        up = 40;
-        down = 0;
-      }
-      else if (up+down < -40){
-        up = -40;
-        down = 0;
-      }
-
-      glTranslatef(0.0f, 0.0f, -3.0f);
-      glRotatef(up+down, 1.0f, 0.0f, 0.0f);
-      glRotatef(left+right, 0.0f, 1.0f, 0.0f);
-      /*if ((GetKeyState(VK_LBUTTON) & 0x100) == 0){
-        GetCursorPos(&p1);
-      }
-      else{
-        GetCursorPos(&p2);
-        angleX = (p2.y-p1.y) + mousePushPosY;
-        if (angleX > 40){
-            angleX = 40;
-        }
-        else if (angleX < -40){
-            angleX = -40;
-        }
-        angleY = (p2.x-p1.x) + mousePushPosX;
-      }
-      glTranslatef(0.0f, 0.0f, -3.0f);
-      glRotatef(angleX, 1.0f, 0.0f, 0.0f);
-      glRotatef(angleY, 0.0f, 1.0f, 0.0f);
-      //gluLookAt(cameraX/50, cameraY/50, 3, 0, 0, 0, 0.0, 1.0, 0.0);
-      */
-      /* -------------------------------------------------------------- */
-
-
-      /* ----------------------- Rendering code ---------------------- */
+      rotCamera();
 
       glPushMatrix();
-        //glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
-        //glRotatef(timeSinceStart*45, 0.0f, 1.0f, 0.0f); // matrix order = ^
-        drawCube();
+      drawCube();
       glPopMatrix();
 
       /* ------------------------------------------------------------- */
@@ -238,7 +182,33 @@ void keyboard(unsigned char key, int x, int y)
   }
 }
 
+void rotCamera(){
+    if(GetKeyState(VK_UP) & 0x100){
+        up += 1.0f;
+    }
+    if(GetKeyState(VK_DOWN) & 0x100){
+        down -= 1.0f;
+    }
+    if(GetKeyState(VK_RIGHT) & 0x100){
+        right += 1.0f;
+    }
+    if(GetKeyState(VK_LEFT) & 0x100){
+        left -= 1.0f;
+    }
 
+    if (up+down > 40){
+        up = 40;
+        down = 0;
+    }
+    else if (up+down < -40){
+        up = -40;
+        down = 0;
+    }
+
+    glTranslatef(0.0f, 0.0f, -3.0f);
+    glRotatef(up+down, 1.0f, 0.0f, 0.0f);
+    glRotatef(left+right, 0.0f, 1.0f, 0.0f);
+}
 
 
 /*
