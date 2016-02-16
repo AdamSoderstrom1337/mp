@@ -41,82 +41,6 @@ void rotCamera();
 
 int main(void)
 {
-<<<<<<< HEAD
-    
-    GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
-    
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
-    
-    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-    
-    glfwMakeContextCurrent(window);
-    init();
-    
-    glfwSwapInterval(1);
-    glfwSetKeyCallback(window, key_callback);
-    
-    
-    Cube cube1 = Cube();
-    
-    while (!glfwWindowShouldClose(window))
-    {
-        
-        float ratio;
-        int width, height;
-        
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float) height;
-        
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        
-        glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
-        
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        
-        /* ----------------------- camera controls ---------------------- */
-        double mouseX, mouseY;
-        
-        glfwGetCursorPos(window, &mouseX, &mouseY);
-        gluLookAt(-mouseX/100, mouseY/100, 3, 0, 0, 0, 0.0, 1.0, 0.0);
-        /* -------------------------------------------------------------- */
-        
-        
-        /* ----------------------- Rendering code ---------------------- */
-        
-        glPushMatrix();
-        cube1.draw();
-        
-        cube1.update(timeSinceStart);
-        
-        
-        glPopMatrix();
-        
-        /* ------------------------------------------------------------- */
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-        
-        timeSinceStart = (float)glfwGetTime(); //update timevariable
-    }
-    
-    
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
-=======
-
   GLFWwindow* window;
   glfwSetErrorCallback(error_callback);
 
@@ -177,7 +101,6 @@ int main(void)
   glfwDestroyWindow(window);
   glfwTerminate();
   exit(EXIT_SUCCESS);
->>>>>>> eeeafe810ad43a2083e81e646f0cf2003d91eca7
 }
 
 static void error_callback(int error, const char* description)
@@ -259,6 +182,7 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 void rotCamera(){
+    
     if(GetKeyState(VK_UP) & 0x100){
         up += 1.0f;
     }
@@ -280,6 +204,7 @@ void rotCamera(){
         up = -40;
         down = 0;
     }
+     
 
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);
