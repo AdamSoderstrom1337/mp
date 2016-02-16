@@ -26,7 +26,8 @@
 float transZ=0;
 float rotateA=0;
 double timeSinceStart; //Time variable
-
+double mousePushPosX=0, mousePushPosY=0;
+float up = 0, down = 0, left = 0, right = 0;
 
 /* - Function Declarations - */
 void drawCube();
@@ -82,10 +83,58 @@ int main(void)
       glLoadIdentity();
 
       /* ----------------------- camera controls ---------------------- */
-      double mouseX, mouseY;
 
-      glfwGetCursorPos(window, &mouseX, &mouseY);
-      gluLookAt(-mouseX/100, mouseY/100, 3, 0, 0, 0, 0.0, 1.0, 0.0);
+      POINT p1;
+      POINT p2;
+
+      float angleX;
+      float angleY;
+
+      //If left button is not clicked
+      if(GetKeyState(VK_UP) & 0x100){
+        up += 1.0f;
+      }
+      if(GetKeyState(VK_DOWN) & 0x100){
+        down -= 1.0f;
+      }
+      if(GetKeyState(VK_RIGHT) & 0x100){
+        right += 1.0f;
+      }
+      if(GetKeyState(VK_LEFT) & 0x100){
+        left -= 1.0f;
+      }
+
+      if (up+down > 40){
+        up = 40;
+        down = 0;
+      }
+      else if (up+down < -40){
+        up = -40;
+        down = 0;
+      }
+
+      glTranslatef(0.0f, 0.0f, -3.0f);
+      glRotatef(up+down, 1.0f, 0.0f, 0.0f);
+      glRotatef(left+right, 0.0f, 1.0f, 0.0f);
+      /*if ((GetKeyState(VK_LBUTTON) & 0x100) == 0){
+        GetCursorPos(&p1);
+      }
+      else{
+        GetCursorPos(&p2);
+        angleX = (p2.y-p1.y) + mousePushPosY;
+        if (angleX > 40){
+            angleX = 40;
+        }
+        else if (angleX < -40){
+            angleX = -40;
+        }
+        angleY = (p2.x-p1.x) + mousePushPosX;
+      }
+      glTranslatef(0.0f, 0.0f, -3.0f);
+      glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+      glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+      //gluLookAt(cameraX/50, cameraY/50, 3, 0, 0, 0, 0.0, 1.0, 0.0);
+      */
       /* -------------------------------------------------------------- */
 
 
