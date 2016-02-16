@@ -2,7 +2,7 @@
 #include "Cube.h"
 #include <iostream>
 
-Cube::Cube() : vertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
+Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
     -1.0f,  1.0f,  1.0f,
     1.0f,  1.0f,  1.0f,
     1.0f, -1.0f,  1.0f,
@@ -11,7 +11,9 @@ Cube::Cube() : vertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
     -1.0f, -1.0f, -1.0f,
     -1.0f,  1.0f, -1.0f}
 {
-    ;
+    for(int i=0; i<24; i++){
+        vertices[i]=initialVertices[i];
+    }
 }
 
 GLfloat* Cube::getVertices()

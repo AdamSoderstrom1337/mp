@@ -111,6 +111,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+    
+    if(key == GLFW_KEY_W && action == GLFW_REPEAT)
+        up += 1.0f;
 }
 
 void init (void)
@@ -169,20 +172,20 @@ void keyboard(unsigned char key, int x, int y)
             transZ+=2.0f;
             break;
         case 'W':
-            transZ-=2.0f;
+            up += 1.0f;
             break;
         case 's':
             transZ+=2.0f;
             break;
         case 'w':
-            transZ-=2.0f;
+            up += 1.0f;
             break;
             
     }
 }
 
 void rotCamera(){
-    
+    /*
     if(GetKeyState(VK_UP) & 0x100){
         up += 1.0f;
     }
@@ -204,7 +207,7 @@ void rotCamera(){
         up = -40;
         down = 0;
     }
-     
+    */
 
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);

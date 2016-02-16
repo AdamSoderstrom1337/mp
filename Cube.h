@@ -16,6 +16,8 @@ class Cube
 private:
 
     GLfloat vertices[24];
+    GLfloat initialVertices[24];
+    
 
 public:
     Cube();
