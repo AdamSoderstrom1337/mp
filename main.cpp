@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
+#include <stdio.h>
 
 #include "Cube.h"
 
@@ -22,8 +23,8 @@
 
 
 /* -- Global Variables -- */
-float transZ=0;      
-float rotateA=0;         
+float transZ=0;
+float rotateA=0;
 double timeSinceStart; //Time variable
 
 
@@ -65,16 +66,16 @@ int main(void)
   {
       float ratio;
       int width, height, button;
-     
+
       glfwGetFramebufferSize(window, &width, &height);
       ratio = width / (float) height;
-      
+
       glViewport(0, 0, width, height);
       glClear(GL_COLOR_BUFFER_BIT);
-      
+
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
-      
+
       glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
 
       glMatrixMode(GL_MODELVIEW);
@@ -86,18 +87,18 @@ int main(void)
       glfwGetCursorPos(window, &mouseX, &mouseY);
       gluLookAt(-mouseX/100, mouseY/100, 3, 0, 0, 0, 0.0, 1.0, 0.0);
       /* -------------------------------------------------------------- */
-  
+
 
       /* ----------------------- Rendering code ---------------------- */
 
       glPushMatrix();
-        //glRotatef(20.0f, 1.0f, 0.0f, 0.0f);             
+        //glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
         //glRotatef(timeSinceStart*45, 0.0f, 1.0f, 0.0f); // matrix order = ^
         drawCube();
       glPopMatrix();
 
       /* ------------------------------------------------------------- */
-      
+
       glfwSwapBuffers(window);
       glfwPollEvents();
 
@@ -121,7 +122,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 void init (void)
-{  
+{
   glClearColor(0.8, 0.8, 0.8, 1.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -132,9 +133,9 @@ void init (void)
 
 void drawCube ()
   {
-  
+
   glEnableClientState(GL_VERTEX_ARRAY);
-  glColor3f(1.0f, 0.0f, 0.0f); 
+  glColor3f(1.0f, 0.0f, 0.0f);
 
   GLfloat vertices[] = {-1.0f, -1.0f,  1.0f,  //FRONT-LEFT-DOWN
                         -1.0f,  1.0f,  1.0f,  //FRONT-LEFT-UP
@@ -144,9 +145,9 @@ void drawCube ()
                          1.0f, -1.0f, -1.0f,  //BACK-RIGHT-DOWN
                         -1.0f, -1.0f, -1.0f,  //BACK-LEFT-DOWN
                         -1.0f,  1.0f, -1.0f}; //BACK-LEFT-UP
- 
+
   glVertexPointer(3, GL_FLOAT, 0, vertices);
- 
+
   //Declare vertex indices
   GLubyte frontIndices[] = {0, 1, 2, 3};
   GLubyte rightIndices[] = {3, 2, 4, 5};
@@ -154,14 +155,14 @@ void drawCube ()
   GLubyte backIndices[] = {6, 5, 4, 7};
   GLubyte leftIndices[] = {0, 6, 7, 1};
   GLubyte topIndices[] = {1, 2, 4, 7};
- 
- 
+
+
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottomIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, backIndices);
   glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, leftIndices);
-  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);    
+  glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, topIndices);
 }
 
 
@@ -169,7 +170,7 @@ void drawCube ()
 void keyboard(unsigned char key, int x, int y)
 {
   switch (key) {
-    case 27:                
+    case 27:
     exit(0);
     break;
     case 'S':
@@ -194,10 +195,10 @@ void keyboard(unsigned char key, int x, int y)
 /*
 void display()
 {
-  // - Update timevariable - 
+  // - Update timevariable -
 
   timeSinceStart = (float)glfwGetTime();
-  double rotSpeed = timeSinceStart*45; 
+  double rotSpeed = timeSinceStart*45;
 
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -221,7 +222,7 @@ void display()
 
   glPopMatrix();
 
-  glFlush();           
+  glFlush();
   glutSwapBuffers();
 
 }
