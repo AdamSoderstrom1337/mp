@@ -67,16 +67,18 @@ int main(void)
 
     Cube cube1 = Cube();
     
+    GLfloat vertex = cube1.getVertice(3);
+    
+    //Initial values
     int m = 2;
     double h = 0.015;
-    int k = 20;
+    int k = 30;
     float d = 1.0;
     
     
-    // Number of samples
+    GLfloat x1 = cube1.getVertice(3);
+    GLfloat x2 = cube1.getVertice(6);
     
-    float x1 = -1.0f;
-    float x2 = 1.0f;
     double v1 = -1;
     double v2 = 1;
     
@@ -126,9 +128,6 @@ int main(void)
         cube1.setVertice(3, x1);
         cube1.setVertice(6, x2);
         
-        
-        //std::cout << vertices[3] << std::endl;
-        
         cube1.draw();
         glPopMatrix();
         
@@ -152,11 +151,29 @@ static void error_callback(int error, const char* description)
 }
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
+    float step=2.0f; //determines how fast the view will change
     
-    if(key == GLFW_KEY_W && action == GLFW_REPEAT)
-        up += 1.0f;
+    switch (key) {
+        case GLFW_KEY_ESCAPE:
+            glfwSetWindowShouldClose(window, GL_TRUE);
+            break;
+        case GLFW_KEY_UP:
+            up+=step;
+            break;
+        case GLFW_KEY_DOWN:
+            down-=step;
+            break;
+        case GLFW_KEY_LEFT:
+            left-=step;
+            break;
+        case GLFW_KEY_RIGHT:
+            right+=step;
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 void init (void)
@@ -242,6 +259,8 @@ void rotCamera(){
      left -= 1.0f;
      }
      
+     */
+     
      if (up+down > 40){
      up = 40;
      down = 0;
@@ -250,7 +269,7 @@ void rotCamera(){
      up = -40;
      down = 0;
      }
-     */
+    
     
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);

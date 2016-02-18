@@ -2,14 +2,15 @@
 #include "Cube.h"
 #include <iostream>
 
-Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
-    -1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f, -1.0f,  1.0f,
-    1.0f,  1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f}
+Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //FRONT-LEFT-DOWN
+                                -1.0f,  1.0f,  1.0f,   //FRONT-LEFT-UP
+                                 1.0f,  1.0f,  1.0f,   //FRONT-RIGHT-UP
+                                 1.0f, -1.0f,  1.0f,   //FRONT-RIGHT-DOWN
+    
+                                 1.0f,  1.0f, -1.0f,   //BACK-RIGHT-UP
+                                 1.0f, -1.0f, -1.0f,   //BACK-RIGHT-DOWN
+                                -1.0f, -1.0f, -1.0f,   //BACK-LEFT-DOWN
+                                -1.0f,  1.0f, -1.0f}   //BACK-LEFT-UP
 {
     for(int i=0; i<24; i++){
         vertices[i]=initialVertices[i];
@@ -18,7 +19,7 @@ Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //Vertex 1
 
 GLfloat Cube::getVertice(int index)
 {
-    return initialVertices[index];
+    return vertices[index];
 }
 
 void Cube::setVertice(int index, float value)
@@ -107,6 +108,7 @@ void Cube::draw()
     GLubyte backIndices[] = {6, 5, 4, 7};
     GLubyte leftIndices[] = {0, 6, 7, 1};
     GLubyte topIndices[] = {1, 2, 4, 7};
+    
     
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, frontIndices);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, rightIndices);
