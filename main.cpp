@@ -151,7 +151,7 @@ static void error_callback(int error, const char* description)
 }
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    float step=2.0f; //determines how fast the view will change
+    float step=2.0f;
     
     switch (key) {
         case GLFW_KEY_ESCAPE:
@@ -245,21 +245,22 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 void rotCamera(){
+    
     /*
-     if(GetKeyState(VK_UP) & 0x100){
+     if(GetKeyState('W') & 0x100){
      up += 1.0f;
      }
-     if(GetKeyState(VK_DOWN) & 0x100){
+     if(GetKeyState('S') & 0x100){
      down -= 1.0f;
      }
-     if(GetKeyState(VK_RIGHT) & 0x100){
+     if(GetKeyState('D') & 0x100){
      right += 1.0f;
      }
-     if(GetKeyState(VK_LEFT) & 0x100){
+     if(GetKeyState('A') & 0x100){
      left -= 1.0f;
      }
-     
      */
+    
      
      if (up+down > 40){
      up = 40;

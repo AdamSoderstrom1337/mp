@@ -17,6 +17,7 @@ Cube::Cube() : initialVertices {-1.0f, -1.0f,  1.0f,   //FRONT-LEFT-DOWN
     }
 }
 
+
 GLfloat Cube::getVertice(int index)
 {
     return vertices[index];
