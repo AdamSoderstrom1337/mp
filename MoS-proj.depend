@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1455620929 source:c:\plugg\mos-proj\mp\main.cpp
+1455787789 source:c:\plugg\mos-proj\mp\main.cpp
 	<GL/glew.h>
 	<glm/glm.hpp>
 	<OpenGL/gl.h>
@@ -15,10 +15,11 @@
 	<stdio.h>
 	"Cube.h"
 
-1455613793 source:c:\plugg\mos-proj\mp\cube.cpp
+1455787526 source:c:\plugg\mos-proj\mp\cube.cpp
 	"Cube.h"
+	<iostream>
 
-1455613793 c:\plugg\mos-proj\mp\cube.h
+1455787624 c:\plugg\mos-proj\mp\cube.h
 	<GLUT/glut.h>
 	<GL/glut.h>
 	<GLFW/glfw3.h>

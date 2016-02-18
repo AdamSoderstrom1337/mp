@@ -15,9 +15,9 @@ class Cube
 {
 private:
 
-    
+
     GLfloat initialVertices[24];
-    
+
 
 public:
     Cube();
@@ -27,7 +27,7 @@ public:
     void draw();
     void update(float &time);
     void temp();
-
+    void applyGravity();
 
 };
 
