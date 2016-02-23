@@ -38,43 +38,44 @@ int main(void)
 {
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
-    
+
     if (!glfwInit())
         exit(EXIT_FAILURE);
-    
+
     window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    
+
     glfwMakeContextCurrent(window);
     init();
-    
+
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
-    
+
     while (!glfwWindowShouldClose(window))
     {
         
         
         float ratio;
         int width, height;
-        
+
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
-        
+
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT);
-        
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        
+
         glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
-        
+
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
         
         rotCamera();
 
@@ -93,11 +94,11 @@ int main(void)
         
         glfwSwapBuffers(window);
         glfwPollEvents();
-        
-        
+
+
     }
-    
-    
+
+
     glfwDestroyWindow(window);
     glfwTerminate();
     exit(EXIT_SUCCESS);
@@ -109,6 +110,7 @@ static void error_callback(int error, const char* description)
 }
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+
     float camStep=2.0f;
     float transStep=0.01f;
     
@@ -159,11 +161,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         case GLFW_KEY_SPACE:
             cube1.jump();
             break;
-            
+
         default:
             break;
     }
-    
+
 }
 
 void init (void)
@@ -171,15 +173,35 @@ void init (void)
     glClearColor(0.8, 0.8, 0.8, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    
+
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    
+
 }
 
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key) {
+        case 27:
+            exit(0);
+            break;
+        case 'S':
+            transZ+=2.0f;
+            break;
+        case 'W':
+            up += 1.0f;
+            break;
+        case 's':
+            transZ+=2.0f;
+            break;
+        case 'w':
+            up += 1.0f;
+            break;
+
+    }
+}
 
 void rotCamera(){
-    
-     
+
      if (up+down > 40){
      up = 40;
      down = 0;
@@ -188,10 +210,9 @@ void rotCamera(){
      up = -40;
      down = 0;
      }
-    
-    
+
+
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);
     glRotatef(left+right, 0.0f, 1.0f, 0.0f);
 }
-

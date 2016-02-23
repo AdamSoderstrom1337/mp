@@ -18,9 +18,6 @@ Cube::Cube(){
     massVec.push_back(Mass::Mass(glm::vec3(0,1,1), glm::vec3(-1,1,1))); //FRONT-TOP-LEFT
     
 
-    
-
-
     /* -- Add connections -- */
     
     massVec[0].addConnection(1);
@@ -93,7 +90,6 @@ void Cube::update(){
     glm::vec3 F6;
     glm::vec3 F7;
     
-
     
     /* Top */
     F4 =k*(mass5Pos-mass4Pos-sXlenght)+d*(v5-v4);        //x-led
@@ -154,7 +150,6 @@ void Cube::update(){
     if(mass3.getPosition().y<=-1){
         F3+=8*m*g;
         mass3.setPosition(glm::vec3(mass3.getPosition().x, -1, mass3.getPosition().z));
-
     }
     F3+=k*(mass0Pos-mass3Pos+sZlenght)+d*(v0-v3);        //z-led
 
@@ -210,9 +205,6 @@ void Cube::update(){
      
      */
     
-
-
-    
 }
 
 
@@ -246,6 +238,7 @@ void Cube::draw()
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glColor3f(1.0f, 0.0f, 0.0f);
+
     
     glVertexPointer(3, GL_FLOAT, 0, vBuffer);
     
@@ -268,6 +261,4 @@ void Cube::draw()
 
     
 }
-
-
 

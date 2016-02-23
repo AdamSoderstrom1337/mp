@@ -11,6 +11,7 @@
 class Cube
 {
 private:
+
     //Spring values
     float m = 2.0f;
     float h = 0.015f;
