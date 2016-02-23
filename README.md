@@ -1,6 +1,7 @@
 # Simulation of soft materials
 
 TODO
+- Rendera objekt i rätt ordning
 - Shading(?)
 - Draw enviroment with textures
 - Move camera
