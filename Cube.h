@@ -9,6 +9,8 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <vector>
+#include "Mass.h"
 
 
 class Cube
@@ -18,15 +20,31 @@ private:
     
     GLfloat initialVertices[24];
     
+    //Spring values
+    float m = 2.0f;
+    float h = 0.015f;
+    float k = 130.0f;
+    float d = 20.0f;
+    
+    glm::vec3 g=glm::vec3(0.0f, 9.82f, 0.0f);
+    
+    glm::vec3 sXlenght = glm::vec3(1.0f, 0.0f,0.0f);
+    glm::vec3 sYlenght = glm::vec3(0.0f, 1.0f,0.0f);
+    glm::vec3 sZlenght = glm::vec3(0.0f, 0.0f,1.0f);
+    glm::vec3 sXYZlenght = glm::vec3(1.0f, 1.0f,1.0f);
+
 
 public:
+    std::vector<Mass> massVec;
     Cube();
-    GLfloat vertices[24];
-    GLfloat getVertice(int index);
-    void setVertice(int index, float value);
+    Mass getMass(int index);
+    
+    std::vector<GLfloat> vertices;
     void draw();
-    void update(float &time);
+    void update();
     void temp();
+    void transBot(glm::vec3 _val);
+    void jump();
 
 
 };

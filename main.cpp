@@ -23,11 +23,13 @@
 
 
 /* -- Global Variables -- */
-float transZ=0;
-float rotateA=0;
+
 double timeSinceStart; //Time variable
 double mousePushPosX=0, mousePushPosY=0;
 float up = 0, down = 0, left = 0, right = 0;
+float transX=0, transY=0, transZ=0;
+
+Cube cube1 = Cube();
 
 /* - Function Declarations - */
 void drawCube();
@@ -65,25 +67,27 @@ int main(void)
     
     /* ---- Cube ----- */
 
-    Cube cube1 = Cube();
-    
-    GLfloat vertex = cube1.getVertice(3);
-    
+
+        
+    /*
     //Initial values
     int m = 2;
     double h = 0.015;
     int k = 30;
-    float d = 1.0;
+    float d = 1.0f;
     
     
-    GLfloat x1 = cube1.getVertice(3);
-    GLfloat x2 = cube1.getVertice(6);
+    glm::vec3 vert1 = cube1.massVec[3].getPosition();
+    glm::vec3 vert2 = cube1.massVec[3].getPosition();
+
+    
     
     double v1 = -1;
     double v2 = 1;
     
     double F1;
     double F2;
+    */
     
     /*---------------------*/
     
@@ -117,19 +121,26 @@ int main(void)
         
         /* ----------------------- Cube code ---------------------------- */
         
+        /*
         F1 = k*(x2-x1-2)+d*(v2-v1);
         F2 = k*(x1-x2+2)+d*(v1-v2);
+        
         
         v1 = v1 + F1*h/m;
         x1 = x1 + v1*h;
         v2 = v2 + F2*h/m;
         x2 = x2 + v2*h;
         
-        cube1.setVertice(3, x1);
+        cube1.setVertice(3, x2);
         cube1.setVertice(6, x2);
+         */
         
-        cube1.draw();
+            glTranslatef(-0.5f, 0, -0.5f);
+            cube1.update();
+            cube1.transBot(glm::vec3(transX,transY,transZ));
+            cube1.draw();
         glPopMatrix();
+
         
         /* ------------------------------------------------------------- */
         
@@ -151,23 +162,55 @@ static void error_callback(int error, const char* description)
 }
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    float step=2.0f;
+    float camStep=2.0f;
+    float transStep=0.01f;
     
     switch (key) {
         case GLFW_KEY_ESCAPE:
             glfwSetWindowShouldClose(window, GL_TRUE);
             break;
         case GLFW_KEY_UP:
-            up+=step;
+            up+=camStep;
             break;
         case GLFW_KEY_DOWN:
-            down-=step;
+            down-=camStep;
             break;
         case GLFW_KEY_LEFT:
-            left-=step;
+            left-=camStep;
             break;
         case GLFW_KEY_RIGHT:
-            right+=step;
+            right+=camStep;
+            break;
+            
+        case GLFW_KEY_BACKSPACE:
+            right=0;
+            left=0;
+            up=0;
+            down=0;
+            break;
+            
+            
+            
+        /* Cube controls */
+        case GLFW_KEY_W:
+            transZ-=transStep;
+            break;
+            
+        case GLFW_KEY_S:
+            transZ+=transStep;
+            break;
+            
+        case GLFW_KEY_A:
+            transX-=transStep;
+            break;
+        
+        case GLFW_KEY_D:
+            transX+=transStep;
+            
+            break;
+        
+        case GLFW_KEY_SPACE:
+            cube1.jump();
             break;
             
         default:
@@ -222,44 +265,9 @@ void drawCube ()
 
 
 
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key) {
-        case 27:
-            exit(0);
-            break;
-        case 'S':
-            transZ+=2.0f;
-            break;
-        case 'W':
-            up += 1.0f;
-            break;
-        case 's':
-            transZ+=2.0f;
-            break;
-        case 'w':
-            up += 1.0f;
-            break;
-            
-    }
-}
+
 
 void rotCamera(){
-    
-    /*
-     if(GetKeyState('W') & 0x100){
-     up += 1.0f;
-     }
-     if(GetKeyState('S') & 0x100){
-     down -= 1.0f;
-     }
-     if(GetKeyState('D') & 0x100){
-     right += 1.0f;
-     }
-     if(GetKeyState('A') & 0x100){
-     left -= 1.0f;
-     }
-     */
     
      
      if (up+down > 40){
@@ -277,39 +285,3 @@ void rotCamera(){
     glRotatef(left+right, 0.0f, 1.0f, 0.0f);
 }
 
-
-/*
- void display()
- {
- // - Update timevariable -
- 
- timeSinceStart = (float)glfwGetTime();
- double rotSpeed = timeSinceStart*45;
- 
- 
- glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
- 
- 
- glMatrixMode(GL_MODELVIEW);
- glLoadIdentity();
- 
- gluLookAt(0,25+transZ,50, 0,0,0, 0,1,0); // (eye, center, up)
- 
- 
- glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
- glMatrixMode(GL_MODELVIEW);
- 
- 
- glPushMatrix();
- 
- glRotatef(rotSpeed, 0.0f, 1.0f, 0.0f);
- glScalef(10.0f,10.0f,10.0f);
- drawCube();
- 
- glPopMatrix();
- 
- glFlush();
- glutSwapBuffers();
- 
- }
- */

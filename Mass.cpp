@@ -16,3 +16,20 @@ glm::vec3 Mass::getPosition(){
 void Mass::setPosition(glm::vec3 _pos){
     pos=_pos;
 }
+
+void Mass::addConnection(int index){
+    connectedMasses.push_back(index);
+}
+
+void Mass::setVelocity(glm::vec3 vel){
+    velocity=vel;
+}
+
+glm::vec3 Mass::getVelocity(){
+    return velocity;
+}
+
+std::vector<int> Mass::getConnections(){
+    return connectedMasses;
+}
+
