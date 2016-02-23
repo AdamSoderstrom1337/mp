@@ -1,11 +1,6 @@
 #ifndef CUBE_H_INCLUDED
 #define CUBE_H_INCLUDED
 
-#if defined (__APPLE_CC__)
-    #include <GLUT/glut.h>
-#else
-    #include <GL/glut.h>
-#endif
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -16,10 +11,6 @@
 class Cube
 {
 private:
-
-    
-    GLfloat initialVertices[24];
-    
     //Spring values
     float m = 2.0f;
     float h = 0.015f;
@@ -27,7 +18,6 @@ private:
     float d = 20.0f;
     
     glm::vec3 g=glm::vec3(0.0f, 9.82f, 0.0f);
-    
     glm::vec3 sXlenght = glm::vec3(1.0f, 0.0f,0.0f);
     glm::vec3 sYlenght = glm::vec3(0.0f, 1.0f,0.0f);
     glm::vec3 sZlenght = glm::vec3(0.0f, 0.0f,1.0f);
@@ -35,14 +25,10 @@ private:
 
 
 public:
-    std::vector<Mass> massVec;
     Cube();
-    Mass getMass(int index);
-    
-    std::vector<GLfloat> vertices;
+    std::vector<Mass> massVec;
     void draw();
     void update();
-    void temp();
     void transBot(glm::vec3 _val);
     void jump();
 

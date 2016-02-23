@@ -216,48 +216,6 @@ void Cube::update(){
 }
 
 
-
-void Cube::temp(){
-    // m är massa
-    int m = 2;
-    
-    // h är en steglängd
-    // k är fjäderkonstant
-    // d är dämpningskonstant
-    double h = 0.01;
-    int k = 20;
-    
-    
-    // Number of samples
-    int N = 100;
-    
-    double x1 = vertices[3];
-    double x2 = vertices[6];
-    double v1 = 0;
-    double v2 = 0;
-    
-    double F1[100];
-    double F2[100];
-    
-    for (int n=2; n<N; n++){
-        
-        F1[n] = k*(x2-x1-10);
-        F2[n] = k*(x1-x2+10);
-        
-        v1 = v1 + F1[n]*h/m;
-        x1 = x1 + v1*h;
-        v2 = v2 + F2[n]*h/m;
-        x2 = x2 + v2*h;
-        
-        vertices[3]=x1;
-        vertices[6]=x2;
-        
-        
-        std::cout << vertices[3] << std::endl;
-    }
-    
-}
-
 void Cube::jump(){
     for (int i=0; i<massVec.size(); i++) {
         massVec[i].setVelocity(massVec[i].getVelocity()+glm::vec3(0.0f,3.0f,0.0f));
@@ -285,11 +243,6 @@ void Cube::draw()
         vBuffer[(i*3)+2] = z;
         
     }
-    
-    
-    
-    
-    
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glColor3f(1.0f, 0.0f, 0.0f);
