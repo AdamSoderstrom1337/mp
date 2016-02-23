@@ -7,6 +7,7 @@ TODO
 - Move camera
 - for-loop i update
 - Cube av cuber (on hold)
+- Friktion
 
 DOING
 - Skybox
