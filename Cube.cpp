@@ -237,28 +237,40 @@ void Cube::draw()
     }
     
     glEnableClientState(GL_VERTEX_ARRAY);
-    glColor3f(1.0f, 0.0f, 0.0f);
-
     
     glVertexPointer(3, GL_FLOAT, 0, vBuffer);
     
-    GLubyte bottom[] = {0, 1, 2, 3};
+    GLubyte bottom[] = {3, 2, 1, 0};
     GLubyte top[] = {4, 5, 6, 7};
-    GLubyte front[] = {2, 3, 7, 6};
-    GLubyte back[] = {0, 1, 5, 4};
-    GLubyte right[] = {1, 2, 6, 5};
-    GLubyte left[] = {0, 3, 7, 4};
+    GLubyte front[] = {7,6,2,3};
+    GLubyte back[] = {1,5,4,0};
+    GLubyte right[] = {2,6,5,1};
+    GLubyte left[] = {4,7,3,0};
     
-    
+    /*
+     
+     4----------5
+     |\         |\
+     | \        | \
+     |  7----------6
+     |  |       |  |
+     0--|-------1  |
+      \ |        \ |
+       \|         \|
+        3----------2
+     
+     */
 
     
+
+
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, bottom);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, top);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, front);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, right);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, back);
     glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, left);
-
+    
     
 }
 

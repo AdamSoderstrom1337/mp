@@ -24,6 +24,8 @@ float up = 0, down = 0, left = 0, right = 0;
 float transX=0, transY=0, transZ=0;
 
 Cube cube1 = Cube();
+Cube cube2 = Cube();
+
 
 /* - Function Declarations - */
 
@@ -61,6 +63,10 @@ int main(void)
         
         float ratio;
         int width, height;
+        unsigned int GridSizeX = 16;
+        unsigned int GridSizeY = 16;
+        unsigned int SizeX = 1;
+        unsigned int SizeY = 1;
 
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
@@ -70,24 +76,65 @@ int main(void)
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
+        
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_NORMALIZE);
+        glCullFace(GL_FRONT_AND_BACK);
 
         glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-
+        
+        glCullFace(GL_FRONT);
+        glLoadIdentity();
         
         rotCamera();
 
         
         /* ----------------------- Render code ---------------------------- */
     
+
+        //Floor
         glPushMatrix();
-            glTranslatef(-0.5f, 0, -0.5f);
+        glRotatef(90, 1.0f, 0.0f, 0.0f);
+        glTranslatef(-8.0f, -8.0f, 1.0f);
+            glBegin(GL_QUADS);
+            for (unsigned int x =0;x<GridSizeX;++x)
+                for (unsigned int y =0;y<GridSizeY;++y)
+                {
+                    if ((x+y)%2) //modulo 2
+                        glColor3f(1.0f,1.0f,1.0f); //white
+                    else
+                        glColor3f(0.0f,0.0f,0.0f); //black
+                    
+                    glVertex2f(    x*SizeX,    y*SizeY);
+                    glVertex2f((x+1)*SizeX,    y*SizeY);
+                    glVertex2f((x+1)*SizeX,(y+1)*SizeY);
+                    glVertex2f(    x*SizeX,(y+1)*SizeY);
+                    
+                }
+            glEnd();
+        glPopMatrix();
+        
+        
+        glColor3f(0.5f, 0.5f, 0.5f);
+        glPushMatrix();
+            glTranslatef(-1.4f, 0, -0.5f);
             cube1.update();
             cube1.transBot(glm::vec3(transX,transY,transZ));
             cube1.draw();
         glPopMatrix();
+        
+        glColor3f(1.0f, 0.5f, 0.25f);
+            glPushMatrix();
+            glTranslatef(0.4f, 0, -0.5f);
+            cube2.update();
+            cube2.transBot(glm::vec3(transX,transY,transZ));
+            cube2.draw();
+        glPopMatrix();
+        
+
 
         
         /* ----------------------------------------------------------------- */
@@ -158,8 +205,12 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
             
             break;
         
-        case GLFW_KEY_SPACE:
+        case GLFW_KEY_R:
             cube1.jump();
+            break;
+            
+        case GLFW_KEY_F:
+            cube2.jump();
             break;
 
         default:
@@ -174,7 +225,7 @@ void init (void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
 }
 
