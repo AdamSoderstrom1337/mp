@@ -1,15 +1,21 @@
 # Simulation of soft materials
 
 TODO
-- Cube
+- Rendera objekt i rätt ordning
 - Shading(?)
-- Move camera with mouse/keyboard
 - Draw enviroment with textures
-- Euler integration
-- Projection Matrix fix
+- Move camera
+- for-loop i update
+- Cube av cuber (on hold)
+- Friktion
 
 DOING
+- Skybox
 
 DONE
+- Cube
+- Färg på Cube
+- Projection Matrix fix
+- Euler integration
 
-ASdF
+
