@@ -52,10 +52,16 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-    init();
+    
+    glClearColor(0.6, 0.9, 1.0, 1.0);
+    glLoadIdentity();
+    
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
 
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
+    
 
     while (!glfwWindowShouldClose(window))
     {
@@ -72,14 +78,15 @@ int main(void)
         ratio = width / (float) height;
 
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
         glEnable(GL_CULL_FACE);
         glEnable(GL_NORMALIZE);
-        glCullFace(GL_FRONT_AND_BACK);
+        glEnable(GL_DEPTH_TEST);
+        glCullFace(GL_FRONT);
 
         glFrustum(-ratio, ratio, -1.0f, 1.0f, 1, 50);
 
@@ -141,7 +148,6 @@ int main(void)
         
         glfwSwapBuffers(window);
         glfwPollEvents();
-
 
     }
 
@@ -219,46 +225,14 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 }
 
-void init (void)
-{
-    glClearColor(0.8, 0.8, 0.8, 1.0);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-
-}
-
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key) {
-        case 27:
-            exit(0);
-            break;
-        case 'S':
-            transZ+=2.0f;
-            break;
-        case 'W':
-            up += 1.0f;
-            break;
-        case 's':
-            transZ+=2.0f;
-            break;
-        case 'w':
-            up += 1.0f;
-            break;
-
-    }
-}
-
 void rotCamera(){
 
      if (up+down > 40){
      up = 40;
      down = 0;
      }
-     else if (up+down < -40){
-     up = -40;
+     else if (up+down < 0){
+     up = 0;
      down = 0;
      }
 

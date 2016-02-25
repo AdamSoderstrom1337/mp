@@ -18,10 +18,7 @@
 class Mass{
 private:
     glm::vec3 pos;
-
-    
     glm::vec3 velocity;
-
     
     //const glm::vec3 initPos;
     std::vector<int> connectedMasses;
@@ -30,6 +27,10 @@ private:
 public:
     glm::vec3 initialVelocity;
     glm::vec3 initialPos;
+    
+    int xCon;
+    int yCon;
+    int zCon;
     
     Mass(glm::vec3 _pos, glm::vec3 initVel) // : initPos(_pos)
     {
