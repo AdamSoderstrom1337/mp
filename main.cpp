@@ -23,7 +23,7 @@
 /* -- Global Variables -- */
 
 float up = 0, down = 0, left = 0, right = 0;
-float transX=0, transY=0, transZ=0;
+float transX=0, transY=0, transZ=0, transX2=0, transY2=0, transZ2=0;
 
 Cube cube1 = Cube();
 Cube cube2 = Cube();
@@ -44,14 +44,14 @@ int main(void)
 
     std::cout << "[1] - Rubber" << std::endl
     << "[2] - Jelly"  << std::endl << std::endl;
-    
+
     std::cout << "Enter material 1: ";
     std::cin >> option1;
 
 
     std::cout << "Enter material 2: ";
     std::cin >> option2;
-    
+
     switch (option1) {
         case 1:
             cube1.setConstans(2000, 40); //Rubber
@@ -62,7 +62,7 @@ int main(void)
         default:
             break;
     }
-    
+
     switch (option2) {
         case 1:
             cube2.setConstans(2000, 40); //Rubber
@@ -73,7 +73,7 @@ int main(void)
         default:
             break;
     }
-    
+
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
 
@@ -88,15 +88,17 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-    
+
     glClearColor(0.6, 0.9, 1.0, 1.0);
     glLoadIdentity();
-    
+
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
 
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
+
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -115,7 +117,7 @@ int main(void)
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        
+
         glEnable(GL_CULL_FACE);
         glEnable(GL_NORMALIZE);
         glEnable(GL_DEPTH_TEST);
@@ -125,20 +127,20 @@ int main(void)
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        
+
         glCullFace(GL_FRONT);
         glLoadIdentity();
-         
-        
-        gluLookAt(0.0f, 0.5f, 3.0f,
+
+
+      /*  gluLookAt(0.0f, 0.5f, 3.0f,
                   cube1.getCenter().x-0.5f, 0.0f, cube1.getCenter().z,
-                  0.0f, 1.0f, 0.0f);
-        
+                  0.0f, 1.0f, 0.0f);*/
 
 
-        
+
+
         /* ----------------------- Render code ---------------------------- */
-    
+
         //Floor
         glPushMatrix();
         glRotatef(90, 1.0f, 0.0f, 0.0f);
@@ -151,16 +153,16 @@ int main(void)
                         glColor3f(1.0f,1.0f,1.0f); //white
                     else
                         glColor3f(0.0f,0.0f,0.0f); //black
-                    
+
                     glVertex2f(    x*SizeX,    y*SizeY);
                     glVertex2f((x+1)*SizeX,    y*SizeY);
                     glVertex2f((x+1)*SizeX,(y+1)*SizeY);
                     glVertex2f(    x*SizeX,(y+1)*SizeY);
-                    
+
                 }
             glEnd();
         glPopMatrix();
-        
+
         glColor3f(0.5f, 0.5f, 0.5f);
         glPushMatrix();
             glTranslatef(-1.4f, 0, -0.5f);
@@ -168,19 +170,19 @@ int main(void)
             cube1.transBot(glm::vec3(transX,transY,transZ));
             cube1.update();
         glPopMatrix();
-        
+
         glColor3f(1.0f, 0.5f, 0.25f);
             glPushMatrix();
             glTranslatef(0.4f, 0, -0.5f);
             cube2.update();
-            cube2.transBot(glm::vec3(transX,transY,transZ));
+            cube2.transBot(glm::vec3(transX2,transY2,transZ2));
             cube2.draw();
         glPopMatrix();
-        
-        
-        
+
+
+
         /* ----------------------------------------------------------------- */
-        
+
         glfwSwapBuffers(window);
         glfwPollEvents();
 
@@ -201,58 +203,61 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
     float camStep=2.0f;
     float transStep=0.01f;
-    
+
     switch (key) {
         case GLFW_KEY_ESCAPE:
             glfwSetWindowShouldClose(window, GL_TRUE);
             break;
         case GLFW_KEY_UP:
-            up+=camStep;
+            transZ2-=transStep;
             break;
         case GLFW_KEY_DOWN:
-            down-=camStep;
+            transZ2+=transStep;
             break;
         case GLFW_KEY_LEFT:
-            left-=camStep;
+            transX2-=transStep;
             break;
         case GLFW_KEY_RIGHT:
-            right+=camStep;
+            transX2+=transStep;
             break;
-            
+
         case GLFW_KEY_BACKSPACE:
             right=0;
             left=0;
             up=0;
             down=0;
             break;
-            
-            
-            
+
+
+
         /* Cube controls */
         case GLFW_KEY_W:
             transZ-=transStep;
             break;
-            
+
         case GLFW_KEY_S:
             transZ+=transStep;
             break;
-            
+
         case GLFW_KEY_A:
             transX-=transStep;
             break;
-        
+
         case GLFW_KEY_D:
             transX+=transStep;
-            
+
             break;
-        
+
         case GLFW_KEY_R:
             cube1.jump();
             break;
-            
+
         case GLFW_KEY_F:
             cube2.jump();
             break;
+
+        case GLFW_KEY_0:
+            cube1.addExternalForce();
 
         default:
             break;
@@ -277,11 +282,11 @@ void rotCamera(){
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);
     glRotatef(left+right, 0.0f, 1.0f, 0.0f);
      */
-    
+
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(glfwGetTime()*10, 0.0f, 1.0f, 0.0f);
-    
-    
+
+
 }
 
 
