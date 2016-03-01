@@ -6,16 +6,16 @@
 Cube::Cube(){
     
     /* Bottom */
-    massVec.push_back(Mass::Mass(glm::vec3(0,0,0), glm::vec3(-1,-1,-1))); // BACK-BOT-LEFT
-    massVec.push_back(Mass::Mass(glm::vec3(1,0,0), glm::vec3(1,-1,-1))); //BACK-BOT-RIGHT
-    massVec.push_back(Mass::Mass(glm::vec3(1,0,1), glm::vec3(1,-1,1))); //FRONT-BOT-RIGHT
-    massVec.push_back(Mass::Mass(glm::vec3(0,0,1), glm::vec3(-1,-1,1))); //FRONT-BOT-LEFT
+    massVec.push_back(Mass(glm::vec3(0,0,0), glm::vec3(-1,-1,-1))); // BACK-BOT-LEFT
+    massVec.push_back(Mass(glm::vec3(1,0,0), glm::vec3(1,-1,-1))); //BACK-BOT-RIGHT
+    massVec.push_back(Mass(glm::vec3(1,0,1), glm::vec3(1,-1,1))); //FRONT-BOT-RIGHT
+    massVec.push_back(Mass(glm::vec3(0,0,1), glm::vec3(-1,-1,1))); //FRONT-BOT-LEFT
     
     /* top */
-    massVec.push_back(Mass::Mass(glm::vec3(0,1,0), glm::vec3(-1,1,-1))); // BACK-TOP-LEFT
-    massVec.push_back(Mass::Mass(glm::vec3(1,1,0), glm::vec3(1,1,-1))); //BACK-TOP-RIGHT
-    massVec.push_back(Mass::Mass(glm::vec3(1,1,1), glm::vec3(1,1,1))); //FRONT-TOP-RIGHT
-    massVec.push_back(Mass::Mass(glm::vec3(0,1,1), glm::vec3(-1,1,1))); //FRONT-TOP-LEFT
+    massVec.push_back(Mass(glm::vec3(0,1,0), glm::vec3(-1,1,-1))); // BACK-TOP-LEFT
+    massVec.push_back(Mass(glm::vec3(1,1,0), glm::vec3(1,1,-1))); //BACK-TOP-RIGHT
+    massVec.push_back(Mass(glm::vec3(1,1,1), glm::vec3(1,1,1))); //FRONT-TOP-RIGHT
+    massVec.push_back(Mass(glm::vec3(0,1,1), glm::vec3(-1,1,1))); //FRONT-TOP-LEFT
     
 
     /* -- Add connections -- */
@@ -117,7 +117,9 @@ void Cube::update(){
               F[i]+=k*(massZPos-massVec[i].getPosition()+sign[2]*sZlenght)
                     +d*(massZ.getVelocity()-massVec[i].getVelocity());         //z-led
         
-        if(massVec[i].getPosition().y+1< abs(1e-1)  ){
+        
+                
+        if(massVec[i].getPosition().y+1< (float)std::abs(1e-1)){
             F[i]+=8*m*g;
             //massVec[i].setPosition(glm::vec3(massVec[i].getPosition().x, -1, massVec[i].getPosition().z));
         }
@@ -177,7 +179,7 @@ void Cube::draw()
         float y = massVec[i].getPosition().y;
         float z = massVec[i].getPosition().z;
         
-        vBuffer[(i*3)] = x;
+        vBuffer[(i*3)  ] = x;
         vBuffer[(i*3)+1] = y;
         vBuffer[(i*3)+2] = z;
         
@@ -220,4 +222,20 @@ void Cube::draw()
     
     
 }
+
+
+glm::vec3 Cube::getCenter(){
+    
+    glm::vec3 avgPos= glm::vec3(0.0f, 0.0f, 0.0f);
+    
+    for(int i=0; i<massVec.size();i++)
+    {
+        avgPos+=massVec[i].getPosition();
+    }
+    
+    avgPos/=(float)massVec.size();
+    
+    return avgPos;
+}
+
 

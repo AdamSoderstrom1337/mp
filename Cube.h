@@ -27,11 +27,16 @@ private:
 
 public:
     Cube();
+    void setConstans(float _k, float _d){
+        k=_k;
+        d=_d;
+    }
     std::vector<Mass> massVec;
     void draw();
     void update();
     void transBot(glm::vec3 _val);
     void jump();
+    glm::vec3 getCenter();
 
 
 };

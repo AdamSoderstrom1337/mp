@@ -3,8 +3,10 @@
 
 #if defined (__APPLE_CC__)
     #include <OpenGL/gl.h>
+    #include<OpenGL/glu.h>
 #else
     #include <GL/gl.h>
+    #include<GL/glu.h>
 #endif
 
 #include <GLFW/glfw3.h>
@@ -27,9 +29,9 @@ Cube cube1 = Cube();
 Cube cube2 = Cube();
 
 
+
 /* - Function Declarations - */
 
-void init (void);
 void keyboard(unsigned char key, int x, int y);
 static void error_callback(int error, const char* description);
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -61,12 +63,9 @@ int main(void)
 
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
-    
 
     while (!glfwWindowShouldClose(window))
     {
-        
-        
         float ratio;
         int width, height;
         unsigned int GridSizeX = 16;
@@ -95,13 +94,17 @@ int main(void)
         
         glCullFace(GL_FRONT);
         glLoadIdentity();
+         
         
-        rotCamera();
+        gluLookAt(0.0f, 0.5f, 3.0f,
+                  cube1.getCenter().x-0.5f, 0.0f, cube1.getCenter().z,
+                  0.0f, 1.0f, 0.0f);
+        
+
 
         
         /* ----------------------- Render code ---------------------------- */
     
-
         //Floor
         glPushMatrix();
         glRotatef(90, 1.0f, 0.0f, 0.0f);
@@ -124,13 +127,12 @@ int main(void)
             glEnd();
         glPopMatrix();
         
-        
         glColor3f(0.5f, 0.5f, 0.5f);
         glPushMatrix();
             glTranslatef(-1.4f, 0, -0.5f);
-            cube1.update();
-            cube1.transBot(glm::vec3(transX,transY,transZ));
             cube1.draw();
+            cube1.transBot(glm::vec3(transX,transY,transZ));
+            cube1.update();
         glPopMatrix();
         
         glColor3f(1.0f, 0.5f, 0.25f);
@@ -141,8 +143,7 @@ int main(void)
             cube2.draw();
         glPopMatrix();
         
-
-
+        
         
         /* ----------------------------------------------------------------- */
         
@@ -227,6 +228,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 void rotCamera(){
 
+    /*
      if (up+down > 40){
      up = 40;
      down = 0;
@@ -240,4 +242,18 @@ void rotCamera(){
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(up+down, 1.0f, 0.0f, 0.0f);
     glRotatef(left+right, 0.0f, 1.0f, 0.0f);
+     */
+    
+    glTranslatef(0.0f, 0.0f, -3.0f);
+    glRotatef(glfwGetTime()*10, 0.0f, 1.0f, 0.0f);
+    
+    
 }
+
+
+
+
+
+
+
+
