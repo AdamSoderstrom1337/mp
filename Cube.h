@@ -15,8 +15,6 @@ private:
     //Spring values
     float m = 2.0f;
     float h = 0.015f;
-    float k = 600.0f;
-    float d = 20.0f;
     
     glm::vec3 g=glm::vec3(0.0f, 9.82f, 0.0f);
     glm::vec3 sXlenght = glm::vec3(1.0f, 0.0f,0.0f);
@@ -26,6 +24,10 @@ private:
 
 
 public:
+    
+    float k = 600.0f;
+    float d = 20.0f;
+
     Cube();
     void setConstans(float _k, float _d){
         k=_k;

@@ -40,6 +40,40 @@ void rotCamera();
 
 int main(void)
 {
+    int option1, option2;
+
+    std::cout << "[1] - Rubber" << std::endl
+    << "[2] - Jelly"  << std::endl << std::endl;
+    
+    std::cout << "Enter material 1: ";
+    std::cin >> option1;
+
+
+    std::cout << "Enter material 2: ";
+    std::cin >> option2;
+    
+    switch (option1) {
+        case 1:
+            cube1.setConstans(2000, 40); //Rubber
+            break;
+        case 2:
+            cube1.setConstans(200, 40); //Jelly
+            break;
+        default:
+            break;
+    }
+    
+    switch (option2) {
+        case 1:
+            cube2.setConstans(2000, 40); //Rubber
+            break;
+        case 2:
+            cube2.setConstans(200, 40); //Jelly
+            break;
+        default:
+            break;
+    }
+    
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
 
