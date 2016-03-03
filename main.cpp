@@ -132,9 +132,9 @@ int main(void)
         glLoadIdentity();
 
 
-      /*  gluLookAt(0.0f, 0.5f, 3.0f,
-                  cube1.getCenter().x-0.5f, 0.0f, cube1.getCenter().z,
-                  0.0f, 1.0f, 0.0f);*/
+       gluLookAt(0.0f, 0.5f, 3.0f,
+                (cube1.getCenter().x+cube2.getCenter().x)/2-0.5, 0.0f, (cube1.getCenter().z+cube2.getCenter().z)/2,
+                  0.0f, 1.0f, 0.0f);
 
 
 
@@ -255,9 +255,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         case GLFW_KEY_F:
             cube2.jump();
             break;
-
-        case GLFW_KEY_0:
-            cube1.addExternalForce();
 
         default:
             break;
