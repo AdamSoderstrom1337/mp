@@ -12,13 +12,14 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut.a" />
-					<Add library="../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut_static.a" />
-					<Add library="../../../Program Files (x86)/CodeBlocks/MinGW/lib/glfw3dll.a" />
-					<Add library="../../../Program Files (x86)/CodeBlocks/MinGW/lib/libglfw3.a" />
+					<Add library="glew32s" />
+					<Add library="glfw3" />
+					<Add library="opengl32" />
+					<Add library="gdi32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,7 +45,13 @@
 		</Linker>
 		<Unit filename="Cube.cpp" />
 		<Unit filename="Cube.h" />
+		<Unit filename="Mass.cpp" />
+		<Unit filename="Mass.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="shader.frag" />
+		<Unit filename="shader.vert" />
+		<Unit filename="shading.cpp" />
+		<Unit filename="shading.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

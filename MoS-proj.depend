@@ -25,3 +25,56 @@
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 
+1457439787 source:c:\plugg\mos-proj\test2\mp\cube.cpp
+	"Cube.h"
+	<iostream>
+
+1456841891 c:\plugg\mos-proj\test2\mp\cube.h
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<vector>
+	"Mass.h"
+
+1456839196 c:\plugg\mos-proj\test2\mp\mass.h
+	<stdio.h>
+	<glm/glm.hpp>
+	<vector>
+
+1457607259 source:c:\plugg\mos-proj\test2\mp\main.cpp
+	<GL/glew.h>
+	<glm/glm.hpp>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GLFW/glfw3.h>
+	<GL/glew.h>
+	<stdlib.h>
+	<math.h>
+	<iostream>
+	<stdio.h>
+	"Cube.h"
+	"shading.h"
+
+1456839196 source:c:\plugg\mos-proj\test2\mp\mass.cpp
+	"Mass.h"
+
+1457427885 c:\plugg\mos-proj\test2\mp\shading.cpp
+	"shading.h"
+	<string>
+	<iostream>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1457428049 source:c:\plugg\mos-proj\test2\mp\shading.cpp
+	"shading.h"
+	<string>
+	<iostream>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1457427822 c:\plugg\mos-proj\test2\mp\shading.h
+	"GL/glew.h"
+
