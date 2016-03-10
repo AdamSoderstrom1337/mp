@@ -31,8 +31,9 @@ public:
     int xCon;
     int yCon;
     int zCon;
+    int xyzCon;
     
-    Mass(glm::vec3 _pos, glm::vec3 initVel) // : initPos(_pos)
+    Mass(glm::vec3 _pos, glm::vec3 initVel) 
     {
         initialPos = _pos;
         pos = _pos;

@@ -23,34 +23,47 @@ Cube::Cube(){
     massVec[0].xCon=1; //Mass 0
     massVec[0].yCon=4;
     massVec[0].zCon=3;
+    massVec[0].xyzCon=6;
 
     massVec[1].xCon=0; //Mass 1
     massVec[1].yCon=5;
     massVec[1].zCon=2;
+    massVec[1].xyzCon=7;
     
     massVec[2].xCon=3; //Mass 2
     massVec[2].yCon=6;
     massVec[2].zCon=1;
+    massVec[2].xyzCon=4;
+
     
     massVec[3].xCon=2; //Mass 3
     massVec[3].yCon=7;
     massVec[3].zCon=0;
+    massVec[3].xyzCon=5;
+
     
     massVec[4].xCon=5; //Mass 4
     massVec[4].yCon=0;
     massVec[4].zCon=7;
+    massVec[4].xyzCon=2;
+
     
     massVec[5].xCon=4; //Mass 5
     massVec[5].yCon=1;
     massVec[5].zCon=6;
+    massVec[5].xyzCon=3;
+
     
     massVec[6].xCon=7; //Mass 6
     massVec[6].yCon=2;
     massVec[6].zCon=5;
+    massVec[6].xyzCon=0;
     
     massVec[7].xCon=6; //Mass 7
     massVec[7].yCon=3;
     massVec[7].zCon=4;
+    massVec[7].xyzCon=1;
+
     
     /*-----------------------*/
     
@@ -86,46 +99,56 @@ void Cube::update(){
      
 */
    
-    std::vector<glm::vec3> F;
     float sign[3];
+    glm::vec3 xyzSign;
     
     //Loop through masses
     
     glm::vec3 massXPos;
     glm::vec3 massYPos;
     glm::vec3 massZPos;
+    glm::vec3 massXYZPos;
     
     for (int i=0; i<massVec.size(); i++){
 
         Mass massX=massVec[massVec[i].xCon];
         Mass massY=massVec[massVec[i].yCon];
         Mass massZ=massVec[massVec[i].zCon];
+        Mass massXYZ=massVec[massVec[i].xyzCon];
+
         
         massXPos = massX.getPosition();
         massYPos = massY.getPosition();
         massZPos = massZ.getPosition();
+        massXYZPos = massXYZ.getPosition();
         
         
         sign[0] = -glm::normalize((massXPos.x - massVec[i].getPosition().x));
         sign[1] = -glm::normalize((massYPos.y - massVec[i].getPosition().y));
         sign[2] = -glm::normalize((massZPos.z - massVec[i].getPosition().z));
-
-        F.push_back(k*(massXPos-massVec[i].getPosition()+sign[0]*sXlenght)
-                    +d*(massX.getVelocity()-massVec[i].getVelocity()));      //x-led
+        
+        xyzSign.x= -glm::normalize(massXYZPos.x - massVec[i].getPosition().x);
+        xyzSign.y= -glm::normalize(massXYZPos.y - massVec[i].getPosition().y);
+        xyzSign.z= -glm::normalize(massXYZPos.z - massVec[i].getPosition().z);
+        
+              F[i]=k*(massXPos-massVec[i].getPosition()+sign[0]*sXlenght)
+                    +d*(massX.getVelocity()-massVec[i].getVelocity());      //x-led
               F[i]+=k*(massYPos-massVec[i].getPosition()+sign[1]*sYlenght)
                     +d*(massY.getVelocity()-massVec[i].getVelocity())-m*g;    //y-led
               F[i]+=k*(massZPos-massVec[i].getPosition()+sign[2]*sZlenght)
                     +d*(massZ.getVelocity()-massVec[i].getVelocity());         //z-led
-        
-        
-                
+//        
+//              F[i]+=k*(massXYZPos-massVec[i].getPosition()+xyzSign*sXYZlenght)
+//                    +d*(massXYZ.getVelocity()-massVec[i].getVelocity()); // Diagonal feather
+//        
+//        
+        //Floor collision
         if(massVec[i].getPosition().y+1< (float)std::abs(1e-1)){
             F[i]+=8*m*g;
-            //massVec[i].setPosition(glm::vec3(massVec[i].getPosition().x, -1, massVec[i].getPosition().z));
         }
-
-        
     }
+    
+    
     
     for (int i=0; i<massVec.size(); i++){
         massVec[i].setVelocity(massVec[i].getVelocity()+F[i]*h/m);
@@ -146,14 +169,15 @@ void Cube::update(){
         3----------2
      
      */
-
-    
-    
-    
-    
     
 }
 
+void Cube::addExternalForce(){
+    for (int i=4; i<massVec.size(); i++) {
+        massVec[i].setVelocity(massVec[i].getVelocity()+glm::vec3(0.0f,-4.0f,0.0f));
+    }
+
+}
 
 void Cube::jump(){
     if (massVec[0].getPosition().y<=-0.7) {
@@ -166,9 +190,6 @@ void Cube::jump(){
 
 void Cube::draw()
 {
-    //array[1] = massvec[1].x
-    //array[2] =massvec[1].y
-    
     int arrSize = massVec.size()*3;
     float vBuffer[arrSize];
     
@@ -222,6 +243,7 @@ void Cube::draw()
     
     
 }
+
 
 
 glm::vec3 Cube::getCenter(){

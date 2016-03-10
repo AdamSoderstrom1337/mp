@@ -255,6 +255,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         case GLFW_KEY_F:
             cube2.jump();
             break;
+            
+        case GLFW_KEY_P:
+            cube2.addExternalForce();
+            break;
 
         default:
             break;
