@@ -27,7 +27,7 @@
 /* -- Global Variables -- */
 
 float up = 0, down = 0, left = 0, right = 0;
-float transX=0, transY=0, transZ=0;
+float transX=0, transY=0, transZ=0, transX2=0, transY2=0, transZ2=0;
 
 Cube cube1 = Cube();
 Cube cube2 = Cube();
@@ -95,8 +95,7 @@ int main(void)
     glClearColor(0.6, 0.9, 1.0, 1.0);
     glLoadIdentity();
 
-    glPolygonMode(GL_FRONT,GL_FILL);
-
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
@@ -156,7 +155,7 @@ int main(void)
         glLoadIdentity();
 
         gluLookAt(0.0f, 0.5f, 3.0f,
-                  cube1.getCenter().x-0.5f, 0.0f, cube1.getCenter().z,
+                (cube1.getCenter().x+cube2.getCenter().x)/2-0.5, 0.0f, (cube1.getCenter().z+cube2.getCenter().z)/2,
                   0.0f, 1.0f, 0.0f);
 
         //GLfloat pos[] = {0.0+cube1.getCenter().x-0.5f, 0.0, 10.0+cube1.getCenter().z, 1.0};
@@ -170,12 +169,14 @@ int main(void)
         glPushMatrix();
         glRotatef(90, 1.0f, 0.0f, 0.0f);
         glTranslatef(-8.0f, -8.0f, 1.0f);
+
         for (unsigned int x =0;x<GridSizeX;++x){
             for (unsigned int y =0;y<GridSizeY;++y){
                 if ((x+y)%2){
                     if (objColorLocation != -1){
                        glUniform3f(objColorLocation, 10.0, 10.0, 10.0);   //White tiles
                     }
+            glBegin(GL_QUADS);
                 }
                 else{
                     if (objColorLocation != -1){
@@ -192,7 +193,6 @@ int main(void)
         }
         glPopMatrix();
 
-
         glPushMatrix();
             if(objColorLocation != -1){
                 glUniform3f(objColorLocation, 0.5, 0.5, 0.5);
@@ -203,14 +203,13 @@ int main(void)
             cube1.draw();
         glPopMatrix();
 
-
         glPushMatrix();
             if(objColorLocation != -1){
                 glUniform3f(objColorLocation, 1.0, 0.5, 0.25);
             }
             glTranslatef(0.4f, 0, -0.5f);
             cube2.update();
-            cube2.transBot(glm::vec3(transX,transY,transZ));
+            cube2.transBot(glm::vec3(transX2,transY2,transZ2));
             cube2.draw();
         glPopMatrix();
 
@@ -244,16 +243,16 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
             glfwSetWindowShouldClose(window, GL_TRUE);
             break;
         case GLFW_KEY_UP:
-            up+=camStep;
+            transZ2-=transStep;
             break;
         case GLFW_KEY_DOWN:
-            down-=camStep;
+            transZ2+=transStep;
             break;
         case GLFW_KEY_LEFT:
-            left-=camStep;
+            transX2-=transStep;
             break;
         case GLFW_KEY_RIGHT:
-            right+=camStep;
+            transX2+=transStep;
             break;
 
         case GLFW_KEY_BACKSPACE:
@@ -291,6 +290,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
             cube2.jump();
             break;
 
+        case GLFW_KEY_P:
+            cube2.addExternalForce();
+            break;
+
         default:
             break;
     }
@@ -317,6 +320,4 @@ void rotCamera(){
 
     glTranslatef(0.0f, 0.0f, -3.0f);
     glRotatef(glfwGetTime()*10, 0.0f, 1.0f, 0.0f);
-
-
 }

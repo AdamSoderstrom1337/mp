@@ -34,10 +34,13 @@ public:
         d=_d;
     }
     std::vector<Mass> massVec;
+    glm::vec3 F[8];
+
     void draw();
     void update();
     void transBot(glm::vec3 _val);
     void jump();
+    void addExternalForce();
     glm::vec3 getCenter();
 
 
