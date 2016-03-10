@@ -25,22 +25,22 @@
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 
-1457439787 source:c:\plugg\mos-proj\test2\mp\cube.cpp
+1457615656 source:c:\plugg\mos-proj\test2\mp\cube.cpp
 	"Cube.h"
 	<iostream>
 
-1456841891 c:\plugg\mos-proj\test2\mp\cube.h
+1457615656 c:\plugg\mos-proj\test2\mp\cube.h
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 	<vector>
 	"Mass.h"
 
-1456839196 c:\plugg\mos-proj\test2\mp\mass.h
+1457615656 c:\plugg\mos-proj\test2\mp\mass.h
 	<stdio.h>
 	<glm/glm.hpp>
 	<vector>
 
-1457607259 source:c:\plugg\mos-proj\test2\mp\main.cpp
+1457615656 source:c:\plugg\mos-proj\test2\mp\main.cpp
 	<GL/glew.h>
 	<glm/glm.hpp>
 	<OpenGL/gl.h>
