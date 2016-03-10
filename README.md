@@ -3,8 +3,7 @@
 TODO
 - Shading(?)
 - Skybox
-- Move camera
-- förbättra update()
+
 - Cube av cuber (on hold)
 - Friktion
 
@@ -18,5 +17,7 @@ DONE
 - Projection Matrix fix
 - Euler integration
 - for-loop i update
+- Move camera
+- förbättra update()
 
 
